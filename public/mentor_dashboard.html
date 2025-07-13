@@ -1,333 +1,162 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
-    <link
-      rel="stylesheet"
-      as="style"
-      onload="this.rel='stylesheet'"
-      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
-    />
-
-    <title>Dashboard</title>
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&family=Inter%3Awght%40400%3B500%3B700%3B900&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+    <title>My Mentees</title>
     <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
-
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="relative flex size-full min-h-screen flex-row bg-[#1a1a1a] dark group/design-root overflow-x-hidden" style='font-family: Inter, "Noto Sans", sans-serif;'>
-      <!-- Fixed Sidebar -->
-      <div class="fixed left-0 top-0 h-screen w-80 z-30 bg-[#181e23] rounded-r-2xl shadow-2xl border-r border-cyan-500/30 flex flex-col transition-all duration-300 hover:shadow-cyan-500/20 group/sidebar">
-        <div class="flex h-full min-h-[700px] flex-col justify-between p-4">
-          <!-- Profile Section -->
-          <div class="flex flex-col gap-6">
-            <div class="flex flex-col items-center gap-2 py-4">
-              <div
-                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-16 border-4 border-cyan-400 shadow-lg transition-transform duration-300 hover:scale-105"
-                style='background-image: url("https://randomuser.me/api/portraits/men/51.jpg");'
-              ></div>
-              <h1 class="text-white text-lg font-bold tracking-tight mt-2">Amit Sharma</h1>
-              <p class="text-cyan-400 text-sm font-medium">Mentor</p>
+        <div class="fixed left-0 top-0 h-screen w-80 z-30 bg-[#181e23] rounded-r-2xl shadow-2xl border-r border-cyan-500/30 flex flex-col transition-all duration-300 hover:shadow-cyan-500/20 group/sidebar">
+            <div class="flex h-full min-h-[700px] flex-col justify-between p-4">
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-col items-center gap-2 py-4">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-16 border-4 border-cyan-400 shadow-lg transition-transform duration-300 hover:scale-105" style='background-image: url("https://randomuser.me/api/portraits/men/51.jpg");'></div>
+                        <h1 class="text-white text-lg font-bold tracking-tight mt-2">Amit Sharma</h1>
+                        <p class="text-cyan-400 text-sm font-medium">Mentor</p>
+                    </div>
+                    <nav class="flex flex-col gap-2 mt-2">
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
+                            <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path></svg>
+                            </span>
+                            Dashboard
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-cyan-700/20 text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
+                            <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path></svg>
+                            </span>
+                            My Mentees
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
+                            <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"></path></svg>
+                            </span>
+                            Sessions
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
+                            <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path></svg>
+                            </span>
+                            Messages
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
+                            <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,16V161.57l-51.77-32.35a8,8,0,0,0-8.48,0L72,161.56V48ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z"></path></svg>
+                            </span>
+                            Resources
+                        </a>
+                        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
+                            <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,1,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"></path></svg>
+                            </span>
+                            Settings
+                        </a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-1 mt-8">
+                    <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-red-500/20 hover:text-red-400 transition group w-full">
+                        <span class="flex items-center justify-center rounded-lg bg-red-500/20 p-2 group-hover:bg-red-400/30 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+                        </span>
+                        Logout
+                    </button>
+                </div>
             </div>
-            <!-- Navigation Links -->
-            <nav class="flex flex-col gap-2 mt-2">
-              <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-cyan-700/20 text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
-                <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
-                  </svg>
-                </span>
-                Dashboard
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
-                <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
-                </span>
-                My Mentees
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
-                <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
-                    ></path>
-                  </svg>
-                </span>
-                Sessions
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
-                <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path>
-                </span>
-                Messages
-              </a>
-              <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
-                <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                    <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,16V161.57l-51.77-32.35a8,8,0,0,0-8.48,0L72,161.56V48ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z"></path>
-                </svg>
-              </span>
-              Resources
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-cyan-500/20 hover:text-cyan-300 transition group">
-              <span class="flex items-center justify-center rounded-lg bg-cyan-500/20 p-2 group-hover:bg-cyan-400/30 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                  <path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,1,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
-                    ></path>
-                </svg>
-              </span>
-              Settings
-            </a>
-          </nav>
         </div>
-        <!-- Logout Button -->
-        <div class="flex flex-col gap-1 mt-8">
-          <button class="flex items-center gap-3 px-4 py-3 rounded-xl text-white font-semibold hover:bg-red-500/20 hover:text-red-400 transition group w-full">
-            <span class="flex items-center justify-center rounded-lg bg-red-500/20 p-2 group-hover:bg-red-400/30 transition">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path>
-              </svg>
-            </span>
-            Logout
-          </button>
+        
+        <div class="flex-1 ml-80 h-screen overflow-y-auto">
+            <div class="layout-content-container flex flex-col max-w-[960px] flex-1 mx-auto py-8 px-4">
+                
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+                    <div>
+                        <h1 class="text-white text-[32px] font-extrabold tracking-tight">My Mentees</h1>
+                        <p class="text-cyan-100/80 text-base mt-1">Manage your active and completed mentorships.</p>
+                    </div>
+                    <button class="px-5 py-2 w-full sm:w-auto rounded-lg bg-cyan-600 text-white font-semibold shadow hover:bg-cyan-500 transition">+ Add New Mentee</button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <div class="relative flex-1">
+                        <input type="text" placeholder="Search by name or specialization..." class="w-full pl-10 pr-4 py-3 rounded-lg bg-[#232b2b] text-white border-transparent focus:border-cyan-500 focus:ring-0">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path></svg>
+                    </div>
+                    <select class="rounded-lg bg-[#232b2b] text-white border-transparent focus:border-cyan-500 focus:ring-0">
+                        <option>All Statuses</option>
+                        <option>Active</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                    <div class="flex flex-col bg-[#181e23] rounded-xl border border-cyan-900/50 shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex flex-col items-center p-6">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ryan Chen" class="w-20 h-20 rounded-full border-4 border-cyan-400 shadow-md mb-3" />
+                            <h3 class="text-white text-lg font-bold">Ryan Chen</h3>
+                            <p class="text-cyan-300 text-sm">Product Design</p>
+                        </div>
+                        <div class="px-6 pb-4">
+                             <p class="text-white font-semibold text-sm mb-2">Progress</p>
+                             <div class="flex items-center gap-2">
+                                <div class="relative w-full h-3 bg-[#232b2b] rounded-full overflow-hidden">
+                                    <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 85%;"></div>
+                                </div>
+                                <span class="text-cyan-300 font-bold">85%</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-4 bg-cyan-900/20 rounded-b-xl flex gap-2">
+                            <button class="w-full px-4 py-2 rounded-md bg-[#232b2b] text-cyan-300 text-sm font-semibold hover:bg-cyan-900/60 transition shadow">View Profile</button>
+                            <button class="w-full px-4 py-2 rounded-md bg-cyan-600 text-white text-sm font-semibold hover:bg-cyan-500 transition shadow">Message</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col bg-[#181e23] rounded-xl border border-cyan-900/50 shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex flex-col items-center p-6">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophia Lee" class="w-20 h-20 rounded-full border-4 border-cyan-400 shadow-md mb-3" />
+                            <h3 class="text-white text-lg font-bold">Sophia Lee</h3>
+                            <p class="text-cyan-300 text-sm">Web Development</p>
+                        </div>
+                         <div class="px-6 pb-4">
+                             <p class="text-white font-semibold text-sm mb-2">Progress</p>
+                             <div class="flex items-center gap-2">
+                                <div class="relative w-full h-3 bg-[#232b2b] rounded-full overflow-hidden">
+                                    <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full" style="width: 57%;"></div>
+                                </div>
+                                <span class="text-cyan-300 font-bold">57%</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-4 bg-cyan-900/20 rounded-b-xl flex gap-2">
+                            <button class="w-full px-4 py-2 rounded-md bg-[#232b2b] text-cyan-300 text-sm font-semibold hover:bg-cyan-900/60 transition shadow">View Profile</button>
+                            <button class="w-full px-4 py-2 rounded-md bg-cyan-600 text-white text-sm font-semibold hover:bg-cyan-500 transition shadow">Message</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col bg-[#181e23] rounded-xl border border-cyan-900/50 shadow-lg hover:shadow-cyan-500/20 hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex flex-col items-center p-6">
+                            <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Lucas Patel" class="w-20 h-20 rounded-full border-4 border-green-400 shadow-md mb-3" />
+                            <h3 class="text-white text-lg font-bold">Lucas Patel</h3>
+                            <p class="text-cyan-300 text-sm">Data Science</p>
+                        </div>
+                        <div class="px-6 pb-4">
+                             <p class="text-white font-semibold text-sm mb-2">Progress</p>
+                             <div class="flex items-center gap-2">
+                                <div class="relative w-full h-3 bg-[#232b2b] rounded-full overflow-hidden">
+                                    <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full" style="width: 100%;"></div>
+                                </div>
+                                <span class="text-green-300 font-bold">Completed</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-4 bg-cyan-900/20 rounded-b-xl flex gap-2">
+                            <button class="w-full px-4 py-2 rounded-md bg-[#232b2b] text-cyan-300 text-sm font-semibold hover:bg-cyan-900/60 transition shadow">View Profile</button>
+                            <button class="w-full px-4 py-2 rounded-md bg-cyan-600 text-white text-sm font-semibold hover:bg-cyan-500 transition shadow">Message</button>
+                        </div>
+                    </div>
+                    </div>
+            </div>
         </div>
-      </div>
     </div>
-    <!-- Main Content (scrollable) -->
-    <div class="flex-1 ml-80 h-screen overflow-y-auto">
-      <div class="layout-content-container flex flex-col max-w-[960px] flex-1 mx-auto">
-        <!-- Dashboard Header -->
-        <div class="flex flex-wrap justify-between items-center gap-3 p-4 bg-gradient-to-r from-cyan-900 via-cyan-700 to-cyan-500/30 rounded-2xl shadow-lg mb-6">
-          <div>
-            <p class="text-white tracking-light text-[32px] font-extrabold leading-tight min-w-72 drop-shadow-lg">Mentor Dashboard</p>
-            <p class="text-cyan-100 text-base mt-1">Welcome back, <span class="font-semibold">Amit Sharma</span> 👋</p>
-          </div>
-          <div class="flex gap-2">
-            <button class="px-5 py-2 rounded-lg bg-cyan-600 text-white font-semibold shadow hover:bg-cyan-500 transition">+ New Session</button>
-            <button class="px-5 py-2 rounded-lg bg-[#232b2b] text-cyan-300 font-semibold shadow hover:bg-cyan-900/60 transition">Export Data</button>
-          </div>
-        </div>
-
-        <!-- Quick Stats -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 px-4 mb-8">
-          <div class="bg-[#181e23] rounded-xl p-6 flex flex-col items-center border border-cyan-700 shadow hover:shadow-cyan-500/30 hover:scale-105 transition group">
-            <span class="text-3xl font-extrabold text-cyan-400 mb-1">8</span>
-            <span class="text-white font-semibold">Active Mentees</span>
-          </div>
-          <div class="bg-[#181e23] rounded-xl p-6 flex flex-col items-center border border-cyan-700 shadow hover:shadow-cyan-500/30 hover:scale-105 transition group">
-            <span class="text-3xl font-extrabold text-cyan-400 mb-1">3</span>
-            <span class="text-white font-semibold">Upcoming Sessions</span>
-          </div>
-          <div class="bg-[#181e23] rounded-xl p-6 flex flex-col items-center border border-cyan-700 shadow hover:shadow-cyan-500/30 hover:scale-105 transition group">
-            <span class="text-3xl font-extrabold text-cyan-400 mb-1">24</span>
-            <span class="text-white font-semibold">Total Sessions</span>
-          </div>
-          <div class="bg-[#181e23] rounded-xl p-6 flex flex-col items-center border border-cyan-700 shadow hover:shadow-cyan-500/30 hover:scale-105 transition group">
-            <span class="text-3xl font-extrabold text-cyan-400 mb-1">98%</span>
-            <span class="text-white font-semibold">Satisfaction</span>
-          </div>
-        </div>
-
-        <!-- Upcoming Sessions -->
-        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-2">Upcoming Sessions</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 mb-8">
-          <div class="flex items-stretch gap-4 rounded-xl bg-gradient-to-r from-cyan-900/60 to-cyan-700/30 shadow-lg hover:shadow-cyan-500/20 transition group p-5">
-            <div class="flex flex-col gap-1 flex-[2_2_0px]">
-              <p class="text-cyan-300 text-xs font-medium mb-1">Today, 10:00 AM - 11:00 AM</p>
-              <p class="text-white text-lg font-bold leading-tight group-hover:text-cyan-300 transition">Mentorship Session with Clara Bennett</p>
-              <p class="text-[#adadad] text-sm font-normal leading-normal">Discuss project progress and next steps</p>
-              <div class="flex gap-2 mt-2">
-                <button class="px-4 py-1 rounded bg-cyan-600 text-white text-xs font-semibold hover:bg-cyan-500 transition">Join</button>
-                <button class="px-4 py-1 rounded bg-[#232b2b] text-cyan-300 text-xs font-semibold hover:bg-cyan-900/60 transition">Reschedule</button>
-              </div>
-            </div>
-            <div
-              class="w-32 h-24 bg-center bg-no-repeat bg-cover rounded-xl flex-1 shadow"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUO9XdMBN5D9O5xRbGYaYlo6Dl_DqUvnRNs4bxuLVBTF8T_8mQf3bVU0yaqPW2vVzrhw9BdjYAWLGmGvmy6nrmfOnYExD2Nkbs1_SMJzO3n70Wgo_bqs6pRT8pIesBss_D0DHaASbxtHxNsWKvHnHvAMblhs45iff5pP_lF2kGZ4VruPP-WCCZC4RbzPY-b2ALwSOnlvY7SGc608CKEjUQuYcN-UFUvy0DzPSYSOqnpFcbvBOT21KzByIZTnTg1KgeB02qFUVS9XCg");'
-            ></div>
-          </div>
-          <!-- Add more session cards as needed -->
-        </div>
-
-        <!-- Mentee Progress Tracker -->
-        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-2">Mentee Progress Tracker</h2>
-        <div class="px-4 py-3 @container">
-          <div class="flex overflow-hidden rounded-xl border border-[#4d4d4d] bg-[#1a1a1a] shadow flex-col">
-            <table class="flex-1 min-w-full">
-              <thead>
-                <tr class="bg-neutral-800">
-                  <th class="px-4 py-3 text-left text-white w-[180px] text-sm font-semibold leading-normal">Mentee</th>
-                  <th class="px-4 py-3 text-left text-white w-[180px] text-sm font-semibold leading-normal">Progress</th>
-                  <th class="px-4 py-3 text-left text-white w-[180px] text-sm font-semibold leading-normal">Last Session</th>
-                  <th class="px-4 py-3 text-left text-white w-[180px] text-sm font-semibold leading-normal">Next Session</th>
-                  <th class="px-4 py-3 text-center text-white w-[120px] text-sm font-semibold leading-normal">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-t border-t-[#4d4d4d] hover:bg-cyan-900/10 transition group">
-                  <td class="h-[72px] px-4 py-2 flex items-center gap-3">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ryan Chen" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow" />
-                    <div>
-                      <span class="text-white font-semibold">Ryan Chen</span>
-                      <div class="text-xs text-cyan-300">Product Design</div>
-                    </div>
-                  </td>
-                  <td class="h-[72px] px-4 py-2">
-                    <div class="flex items-center gap-2">
-                      <div class="relative w-28 h-3 bg-[#232b2b] rounded-full overflow-hidden">
-                        <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full transition-all" style="width: 85%;"></div>
-                      </div>
-                      <span class="text-cyan-300 font-bold ml-2">85%</span>
-                    </div>
-                    <div class="text-xs text-[#adadad] mt-1">Milestone: Portfolio Review</div>
-                  </td>
-                  <td class="h-[72px] px-4 py-2 text-[#adadad] text-sm font-normal leading-normal">2 weeks ago</td>
-                  <td class="h-[72px] px-4 py-2 text-[#adadad] text-sm font-normal leading-normal">in 1 week</td>
-                  <td class="h-[72px] px-4 py-2 flex justify-center items-center gap-2">
-                    <button class="px-3 py-1 rounded bg-cyan-600 text-white text-xs font-semibold hover:bg-cyan-500 transition shadow">Message</button>
-                    <button class="px-3 py-1 rounded bg-[#232b2b] text-cyan-300 text-xs font-semibold hover:bg-cyan-900/60 transition shadow">Details</button>
-                  </td>
-                </tr>
-                <tr class="border-t border-t-[#4d4d4d] hover:bg-cyan-900/10 transition group">
-                  <td class="h-[72px] px-4 py-2 flex items-center gap-3">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophia Lee" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow" />
-                    <div>
-                      <span class="text-white font-semibold">Sophia Lee</span>
-                      <div class="text-xs text-cyan-300">Web Development</div>
-                    </div>
-                  </td>
-                  <td class="h-[72px] px-4 py-2">
-                    <div class="flex items-center gap-2">
-                      <div class="relative w-28 h-3 bg-[#232b2b] rounded-full overflow-hidden">
-                        <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full transition-all" style="width: 57%;"></div>
-                      </div>
-                      <span class="text-cyan-300 font-bold ml-2">57%</span>
-                    </div>
-                    <div class="text-xs text-[#adadad] mt-1">Milestone: API Integration</div>
-                  </td>
-                  <td class="h-[72px] px-4 py-2 text-[#adadad] text-sm font-normal leading-normal">1 week ago</td>
-                  <td class="h-[72px] px-4 py-2 text-[#adadad] text-sm font-normal leading-normal">in 2 weeks</td>
-                  <td class="h-[72px] px-4 py-2 flex justify-center items-center gap-2">
-                    <button class="px-3 py-1 rounded bg-cyan-600 text-white text-xs font-semibold hover:bg-cyan-500 transition shadow">Message</button>
-                    <button class="px-3 py-1 rounded bg-[#232b2b] text-cyan-300 text-xs font-semibold hover:bg-cyan-900/60 transition shadow">Details</button>
-                  </td>
-                </tr>
-                <tr class="border-t border-t-[#4d4d4d] hover:bg-cyan-900/10 transition group">
-                  <td class="h-[72px] px-4 py-2 flex items-center gap-3">
-                    <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Lucas Patel" class="w-10 h-10 rounded-full border-2 border-cyan-400 shadow" />
-                    <div>
-                      <span class="text-white font-semibold">Lucas Patel</span>
-                      <div class="text-xs text-cyan-300">Data Science</div>
-                    </div>
-                  </td>
-                  <td class="h-[72px] px-4 py-2">
-                    <div class="flex items-center gap-2">
-                      <div class="relative w-28 h-3 bg-[#232b2b] rounded-full overflow-hidden">
-                        <div class="absolute left-0 top-0 h-full bg-gradient-to-r from-cyan-400 to-cyan-600 rounded-full transition-all" style="width: 100%;"></div>
-                      </div>
-                      <span class="text-cyan-300 font-bold ml-2">100%</span>
-                    </div>
-                    <div class="text-xs text-[#adadad] mt-1">Milestone: Final Presentation</div>
-                  </td>
-                  <td class="h-[72px] px-4 py-2 text-[#adadad] text-sm font-normal leading-normal">3 weeks ago</td>
-                  <td class="h-[72px] px-4 py-2 text-[#adadad] text-sm font-normal leading-normal">Completed</td>
-                  <td class="h-[72px] px-4 py-2 flex justify-center items-center gap-2">
-                    <button class="px-3 py-1 rounded bg-cyan-600 text-white text-xs font-semibold hover:bg-cyan-500 transition shadow">Message</button>
-                    <button class="px-3 py-1 rounded bg-[#232b2b] text-cyan-300 text-xs font-semibold hover:bg-cyan-900/60 transition shadow">Details</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Messages Section -->
-        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Messages</h2>
-        <div class="flex flex-col gap-4 px-4 mb-8">
-          <div class="flex items-center gap-4 bg-[#1a1a1a] px-4 min-h-[72px] py-2 rounded-xl shadow hover:shadow-cyan-500/10 transition group cursor-pointer hover:bg-cyan-900/10">
-            <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-cyan-400"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC1HhkW291ssk3Lw47jJKsGMvnPbHg3oWDWRZ3u8mm2DIYhM6m2AHYWa0eqT4BaVHcsUhwrPBV_L2phtq2iyNbOuipzYdWxGRibiCQ4tCKFSfvQgVz-Q5odXoxTWsg6pjpAXLJWrzphSD3ulsizhk9JgX8Kl4XCMTk84DnDiYW1PSo4oijvKi0UEXQHzlq3s8eRlA9A4xiHmczwnbZBhcXsGlk5LSIPLZHKYoDxIE6VtvWaJdXGf0FO7NKOaZWltOBmj0t027TmZaK2");'
-            ></div>
-            <div class="flex flex-col justify-center">
-              <p class="text-white text-base font-semibold leading-normal line-clamp-1">Clara Bennett</p>
-              <p class="text-[#adadad] text-sm font-normal leading-normal line-clamp-2">Hi, I have a question about the project...</p>
-            </div>
-            <span class="ml-auto text-xs text-cyan-400">2m ago</span>
-          </div>
-          <div class="flex items-center gap-4 bg-[#1a1a1a] px-4 min-h-[72px] py-2 rounded-xl shadow hover:shadow-cyan-500/10 transition group cursor-pointer hover:bg-cyan-900/10">
-            <div
-              class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-cyan-400"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA9MzoAiusYOZGwfjo7xTkoqlrTsZmXWVp8a3ruJiPx_9nr2jXDWPY-GBKeBwY7hEpdgAZnDZwyEw0sQjWG0Sr5dyA8hEVQCwXjYdDIy4Xd8Opl2Gav_fQo0pFilpBBPvc4j6mk9I4d31HVCHcOB4bdBhyHP2m9QzisxzLaH4PeCyV07nE9pB4qI1xF4crqrLkGSU26aIP5iC-M_hYr92GAlx46M6RRxZaCaWVTo8qeUdWqLpEygCxyfBVea6To4gW9kJuMuelwM6BM");'
-            ></div>
-            <div class="flex flex-col justify-center">
-              <p class="text-white text-base font-semibold leading-normal line-clamp-1">Ryan Chen</p>
-              <p class="text-[#adadad] text-sm font-normal leading-normal line-clamp-2">Thanks for the feedback!</p>
-            </div>
-            <span class="ml-auto text-xs text-cyan-400">10m ago</span>
-          </div>
-        </div>
-
-        <!-- Action Center -->
-        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Action Center</h2>
-        <div class="flex flex-col gap-4 px-4 mb-8">
-          <div class="flex items-center gap-4 bg-[#1a1a1a] px-4 min-h-14 rounded-xl shadow hover:shadow-cyan-500/10 transition group cursor-pointer hover:bg-cyan-900/10">
-            <div class="text-white flex items-center justify-center rounded-lg bg-[#363636] shrink-0 size-10 border-2 border-cyan-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z"
-                ></path>
-              </svg>
-            </div>
-            <p class="text-white text-base font-normal leading-normal flex-1 truncate">Review Clara Bennett's project proposal</p>
-            <button class="ml-2 px-3 py-1 rounded bg-cyan-600 text-white text-xs font-semibold hover:bg-cyan-500 transition">Review</button>
-          </div>
-          <div class="flex items-center gap-4 bg-[#1a1a1a] px-4 min-h-14 rounded-xl shadow hover:shadow-cyan-500/10 transition group cursor-pointer hover:bg-cyan-900/10">
-            <div class="text-white flex items-center justify-center rounded-lg bg-[#363636] shrink-0 size-10 border-2 border-cyan-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
-                ></path>
-              </svg>
-            </div>
-            <p class="text-white text-base font-normal leading-normal flex-1 truncate">Schedule follow-up with Lucas Patel</p>
-            <button class="ml-2 px-3 py-1 rounded bg-cyan-600 text-white text-xs font-semibold hover:bg-cyan-500 transition">Schedule</button>
-          </div>
-        </div>
-
-        <!-- Session History -->
-        <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">Session History</h2>
-        <div class="flex flex-col gap-4 px-4 mb-8">
-          <div class="flex items-center gap-4 bg-[#1a1a1a] px-4 min-h-[72px] py-2 rounded-xl shadow hover:shadow-cyan-500/10 transition group">
-            <div class="text-white flex items-center justify-center rounded-lg bg-[#363636] shrink-0 size-12">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
-                ></path>
-              </svg>
-            </div>
-            <div class="flex flex-col justify-center">
-              <p class="text-white text-base font-medium leading-normal line-clamp-1">Session with Clara Bennett</p>
-              <p class="text-[#adadad] text-sm font-normal leading-normal line-clamp-2">Discussed project milestones and challenges</p>
-            </div>
-            <span class="ml-auto text-xs text-cyan-400">2 days ago</span>
-          </div>
-          <div class="flex items-center gap-4 bg-[#1a1a1a] px-4 min-h-[72px] py-2 rounded-xl shadow hover:shadow-cyan-500/10 transition group">
-            <div class="text-white flex items-center justify-center rounded-lg bg-[#363636] shrink-0 size-12">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                <path
-                  d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"
-                ></path>
-              </svg>
-            </div>
-            <div class="flex flex-col justify-center">
-              <p class="text-white text-base font-medium leading-normal line-clamp-1">Session with Ryan Chen</p>
-              <p class="text-[#adadad] text-sm font-normal leading-normal line-clamp-2">Reviewed career goals and development plan</p>
-            </div>
-            <span class="ml-auto text-xs text-cyan-400">1 week ago</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>
+</body>
 </html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat UI</title>
+
+    <!-- Remix Icon Pack -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!-- OPTIONAL: smooth-scroll helper (kept from your original) -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/lenis@1.3.4/dist/lenis.css"
+    />
+
+    <style>
+      /* ===============  GLOBAL =============== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      /* ===============  BACKGROUND BLUR ANIMATION =============== */
+      #home::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            circle at 30% 30%,
+            #00ffe0 0%,
+            #00ffe000 40%
+          ),
+          radial-gradient(circle at 70% 60%, #5e5ce6 0%, #5e5ce600 40%),
+          radial-gradient(circle at 50% 80%, #7af6ff 0%, #7af6ff00 40%),
+          radial-gradient(circle at 60% 20%, #d1d1e9 0%, #d1d1e900 40%),
+          radial-gradient(circle at 50% 50%, #6366f1 0%, #6366f100 40%);
+        filter: blur(100px);
+        opacity: 0.6;
+        animation: liquidFlow 5s ease-in-out infinite;
+      }
+      @keyframes liquidFlow {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate(10%, 10%) rotate(180deg);
+        }
+        100% {
+          transform: translate(0, 0) rotate(360deg);
+        }
+      }
+
+      /* ===============  TOP HEADING =============== */
+      #text {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        text-align: center;
+      }
+      #text h1 {
+        font-size: 50px;
+        padding: 40px 0;
+        font-weight: 600;
+      }
+      .line {
+        width: 80%;
+        height: 2px;
+        background: #000;
+        margin: 0 auto;
+      }
+
+      /* ===============  MESSAGE LIST =============== */
+      #messages-container {
+        position: absolute;
+        top: 180px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        height: 65vh;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px 0;
+        overflow-y: auto;
+        scrollbar-width: none;
+        border-radius: 60px;
+      }
+      /* hidden scrollbar except on hover (Firefox + WebKit) */
+      #messages-container::-webkit-scrollbar {
+        width: 8px;
+        display: none;
+      }
+      #messages-container:hover::-webkit-scrollbar {
+        display: block;
+      }
+      #messages-container::-webkit-scrollbar-thumb {
+        background: rgba(100, 100, 100, 0.3);
+        border-radius: 10px;
+      }
+
+      .message {
+        display: flex;
+        align-items: flex-start;
+        cursor: pointer;
+        margin: 0 40px;
+        gap: 15px;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border-radius: 60px;
+        transition: transform 0.25s;
+      }
+      .message:hover {
+        transform: scale(1.03);
+      }
+      .message img {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .message-content h4 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+      }
+      .message-content p {
+        font-size: 14px;
+        margin: 4px 0 0;
+        color: #000;
+      }
+
+      /* ===============  BOTTOM NAVIGATION (unchanged) =============== */
+      #nav {
+      position:fixed;
+      top:93%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      height:80px;
+      width:400px;
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.15);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.3);
+      border-radius:60px;
+      box-shadow:0 8px 32px rgba(31,38,135,.37);
+      z-index:10;
+      }
+      #nav i {
+        font-size: 60px;
+        cursor: pointer;
+      }
+
+      /* ===============  CHAT OVERLAY =============== */
+      #chat-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.25);
+        z-index: 100;
+      }
+      /* chat window uses flex column so bottom bar stays stuck */
+      #chat-window {
+        width: 60%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border-radius: 60px;
+        color: #fff;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      }
+
+      /* --- top profile bar --- */
+      #chat-profile-bar {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      #chat-profile-pic {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      #chat-user-name {
+        font-size: 18px;
+        font-weight: 700;
+        flex-grow: 1;
+      }
+      #chat-call-icon {
+        font-size: 22px;
+        cursor: pointer;
+      }
+      #close-chat {
+        font-size: 26px;
+        cursor: pointer;
+      }
+
+      /* --- scrollable messages area --- */
+      #chat-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .chat-bubble {
+        max-width: 60%;
+        padding: 10px 15px;
+        font-size: 14px;
+        word-wrap: break-word;
+        border-radius: 20px;
+      }
+      .friend {
+        align-self: flex-start;
+        background: rgba(255, 255, 255, 0.35);
+        color: #000;
+      }
+      .user {
+        align-self: flex-end;
+        background: rgba(0, 153, 255, 0.6);
+        color: #fff;
+      }
+
+      /* --- bottom type-message bar --- */
+      #chat-input-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      #chat-input-bar input {
+        flex: 1;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.35);
+        color: #000;
+        outline: none;
+      }
+      #attach-icon,
+      #mic-icon,
+      #send-icon {
+        font-size: 22px;
+        cursor: pointer;
+      }
+
+      /* ===============  VOICE BUBBLE =============== */
+      .voice-bubble {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .voice-bubble audio {
+        width: 160px;
+      }
+
+      /* ===============  FILE BUBBLE =============== */
+      .file-bubble {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .file-bubble i {
+        font-size: 18px;
+      }
+
+      /* ===============  CALL OVERLAY =============== */
+      #call-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(8px);
+        background: rgba(0, 0, 0, 0.25);
+        z-index: 200;
+      }
+      #call-window {
+        width: 40%;
+        height: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border-radius: 60px;
+        gap: 20px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      }
+      #call-window video {
+        width: 80%;
+        border-radius: 20px;
+      }
+      #end-call-btn {
+        padding: 10px 25px;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        background: #ff4d4d;
+        color: #fff;
+        cursor: pointer;
+      }
+/* =============== RESPONSIVE DESIGN =============== */
+@media (max-width: 1024px) {
+  #chat-window,
+  #call-window {
+    width: 90%;
+    height: 80%;
+    border-radius: 30px;
+  }
+
+  #messages-container {
+    width: 90%;
+    height: 60vh;
+    border-radius: 30px;
+  }
+
+  .message {
+    margin: 0 20px;
+    border-radius: 30px;
+  }
+
+  #nav {
+    width: 90%;
+    height: 70px;
+    border-radius: 30px;
+  }
+
+  #nav i {
+    font-size: 32px;
+  }
+
+  #chat-profile-pic {
+    width: 35px;
+    height: 35px;
+  }
+
+  #chat-user-name {
+    font-size: 16px;
+  }
+
+  #chat-call-icon,
+  #close-chat {
+    font-size: 20px;
+  }
+
+  #chat-input-bar input {
+    padding: 8px 12px;
+  }
+
+  #attach-icon,
+  #mic-icon,
+  #send-icon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  #text h1 {
+    font-size: 36px;
+    padding: 30px 0;
+  }
+
+  .message img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .message-content h4 {
+    font-size: 14px;
+  }
+
+  .message-content p {
+    font-size: 12px;
+  }
+
+  .chat-bubble {
+    max-width: 90%;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  #chat-profile-bar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  #chat-content {
+    padding: 10px;
+  }
+
+  #call-window video {
+    width: 90%;
+  }
+
+  #end-call-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="home">
+      <!-- Heading -->
+      <div id="text">
+        <h1>MESSAGES</h1>
+        <div class="line"></div>
+      </div>
+
+      <!-- Message List -->
+      <div id="messages-container">
+        <!-- Example items -->
+        <div class="message">
+          <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" />
+          <div class="message-content">
+            <h4>John Doe</h4>
+            <p>Hey, how are you?</p>
+          </div>
+        </div>
+        <div class="message">
+          <img src="https://randomuser.me/api/portraits/women/2.jpg" alt="" />
+          <div class="message-content">
+            <h4>Emily Smith</h4>
+            <p>Meeting moved to 4 PM.</p>
+          </div>
+        </div>
+        <div class="message">
+          <img src="https://randomuser.me/api/portraits/men/3.jpg" alt="" />
+          <div class="message-content">
+            <h4>Alex Johnson</h4>
+            <p>Docs received—thanks!</p>
+          </div>
+        </div>
+        <div class="message">
+          <img src="https://randomuser.me/api/portraits/women/4.jpg" alt="" />
+          <div class="message-content">
+            <h4>Sara Lee</h4>
+            <p>Catch up soon?</p>
+          </div>
+        </div>
+        <!-- add more as you like -->
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div id="nav">
+        <a href="home.html"><i class="ri-home-2-line"></i></a>
+        <i class="ri-search-2-line"></i>
+        <i class="ri-add-line"></i>
+        <i class="ri-message-3-line"></i>
+      </div>
+    </div>
+
+    <!-- ========== POP-UP CHAT WINDOW ========== -->
+    <div id="chat-overlay">
+      <div id="chat-window">
+        <!-- top profile bar -->
+        <div id="chat-profile-bar">
+          <img
+            src="https://randomuser.me/api/portraits/men/1.jpg"
+            id="chat-profile-pic"
+            alt="profile"
+          />
+          <span id="chat-user-name">User</span>
+          <i class="ri-phone-line" id="chat-call-icon"></i>
+          <span id="close-chat">&times;</span>
+        </div>
+
+        <!-- messages -->
+        <div id="chat-content">
+          <div class="chat-bubble friend">Hey, are you available?</div>
+          <div class="chat-bubble user">Yes, just got free!</div>
+          <div class="chat-bubble friend">Let's meet at 5?</div>
+        </div>
+
+        <!-- bottom input -->
+        <div id="chat-input-bar">
+          <i class="ri-attachment-2" id="attach-icon"></i>
+          <i class="ri-mic-line" id="mic-icon"></i>
+          <input type="text" placeholder="Type a message" />
+          <i class="ri-send-plane-2-fill" id="send-icon"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== CALL OVERLAY (local preview only) ========= -->
+    <div id="call-overlay">
+      <div id="call-window">
+        <video id="local-video" autoplay muted></video>
+        <button id="end-call-btn">End Call</button>
+      </div>
+    </div>
+
+    <!-- Hidden file input -->
+    <input type="file" id="file-input" multiple hidden />
+
+    <!-- ========== SCRIPT ========== -->
+    <script>
+      /* --- OPEN & CLOSE CHAT POPUP --- */
+      const overlay = document.getElementById("chat-overlay");
+      const closeChat = document.getElementById("close-chat");
+      const userNameSpan = document.getElementById("chat-user-name");
+      const profilePicImg = document.getElementById("chat-profile-pic");
+
+      document.querySelectorAll(".message").forEach((card) => {
+        card.addEventListener("click", () => {
+          userNameSpan.textContent = card.querySelector("h4").innerText;
+          profilePicImg.src = card.querySelector("img").src;
+          overlay.style.display = "flex";
+        });
+      });
+      closeChat.addEventListener("click", () => (overlay.style.display = "none"));
+
+      /* --- MESSAGE SEND --- */
+      const chatContent = document.getElementById("chat-content");
+      const textInput = document.querySelector("#chat-input-bar input");
+      const sendIcon = document.getElementById("send-icon");
+
+      function addTextBubble(text, sender = "user") {
+        if (!text.trim()) return;
+        const div = document.createElement("div");
+        div.className = chat-bubble ${sender};
+        div.textContent = text;
+        chatContent.appendChild(div);
+        chatContent.scrollTop = chatContent.scrollHeight;
+      }
+
+      sendIcon.addEventListener("click", () => {
+        addTextBubble(textInput.value, "user");
+        textInput.value = "";
+      });
+      textInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          sendIcon.click();
+        }
+      });
+
+      /* --- ATTACH FILES --- */
+      const attachIcon = document.getElementById("attach-icon");
+      const fileInput = document.getElementById("file-input");
+
+      attachIcon.addEventListener("click", () => fileInput.click());
+
+      fileInput.addEventListener("change", () => {
+        Array.from(fileInput.files).forEach((file) => {
+          const url = URL.createObjectURL(file);
+          let bubble;
+          if (file.type.startsWith("image/")) {
+            bubble = document.createElement("div");
+            bubble.className = "chat-bubble user";
+            const img = document.createElement("img");
+            img.src = url;
+            img.style.maxWidth = "180px";
+            img.style.borderRadius = "10px";
+            bubble.appendChild(img);
+          } else {
+            bubble = document.createElement("div");
+            bubble.className = "chat-bubble user file-bubble";
+            bubble.innerHTML = <i class="ri-file-3-line"></i><a href="${url}" download="${file.name}">${file.name}</a>;
+          }
+          chatContent.appendChild(bubble);
+        });
+        chatContent.scrollTop = chatContent.scrollHeight;
+        fileInput.value = ""; // reset
+      });
+
+      /* --- VOICE MESSAGE --- */
+      let mediaRecorder;
+      let chunks = [];
+      let recording = false;
+      const micIcon = document.getElementById("mic-icon");
+
+      async function startRecording() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(chunks, { type: "audio/webm" });
+            chunks = [];
+            const url = URL.createObjectURL(blob);
+
+            const div = document.createElement("div");
+            div.className = "chat-bubble user voice-bubble";
+            div.innerHTML = <audio controls src="${url}"></audio>;
+            chatContent.appendChild(div);
+            chatContent.scrollTop = chatContent.scrollHeight;
+          };
+          mediaRecorder.start();
+          recording = true;
+          micIcon.classList.replace("ri-mic-line", "ri-stop-circle-line");
+        } catch (err) {
+          console.error(err);
+          alert("Microphone access denied.");
+        }
+      }
+
+      function stopRecording() {
+        if (mediaRecorder && recording) {
+          mediaRecorder.stop();
+          mediaRecorder.stream.getTracks().forEach((t) => t.stop());
+          recording = false;
+          micIcon.classList.replace("ri-stop-circle-line", "ri-mic-line");
+        }
+      }
+
+      micIcon.addEventListener("click", () => {
+        recording ? stopRecording() : startRecording();
+      });
+
+      /* --- SIMPLE CALL PREVIEW (local) --- */
+      const callIcon = document.getElementById("chat-call-icon");
+      const callOverlay = document.getElementById("call-overlay");
+      const localVid = document.getElementById("local-video");
+      const endCallBtn = document.getElementById("end-call-btn");
+      let localStream;
+
+      async function startCall() {
+        try {
+          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+          localVid.srcObject = localStream;
+          callOverlay.style.display = "flex";
+        } catch (e) {
+          console.error(e);
+          alert("Camera/Mic permission needed for call.");
+        }
+      }
+
+      function endCall() {
+        if (localStream) {
+          localStream.getTracks().forEach((t) => t.stop());
+        }
+        callOverlay.style.display = "none";
+      }
+
+      callIcon.addEventListener("click", startCall);
+      endCallBtn.addEventListener("click", endCall);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+# Bindass Mentor 👨‍🏫👩‍🏫
+
+*Bindass Mentor* is a mentorship platform designed to connect mentees with mentors through personalized one-on-one interactions, smart features, and 24x7 availability. Whether you're a student or a working professional, Bindass Mentor helps you learn, grow, and connect with the right guide.
+
+🚧 *Project Status:* 🛠 In Early Development Stage
+
+---
+
+## 🧠 Core Features
+
+- 🔗 *One-on-One Mentorship*: Get personalized sessions with real mentors.
+- 🔄 *Flexible Mentors*: Mentors can set their own schedules and areas of expertise.
+- 👥 *Login/Signup as Mentor or Mentee*: Role-based access and authentication.
+- 🤝 *Create Meaningful Connections*: Intelligent matching to pair mentors with mentees.
+- 📹 *Integrated Video Calls*: Seamless in-app video calling experience.
+- 🧠 *Mentee Chatbot*: Smart chatbot built using OpenAI API to guide mentees.
+- 🌙 *24x7 Platform Availability*: Access anytime from anywhere.
+
+---
+
+## 🛠 Tech Stack
+
+| Area            | Tools / Technologies                       |
+|-----------------|---------------------------------------------|
+| *Frontend*    | HTML, CSS, JavaScript, GSAP (Animations)    |
+| *Design*      | Figma                                       |
+| *Backend*     | Node.js, Express.js                         |
+| *Database*    | MongoDB                                     |
+| *Authentication* | JWT (JSON Web Token), bcrypt              |
+| *Chatbot*     | OpenAI API                                  |
+| *Deployment*  | Not yet deployed                            |
+
+---
+
+## 🚀 Getting Started
+
+> Setup instructions will be added soon as the development progresses.
+
+---
+
+
+---
+
+
+##Hackathon Team – Clover 🚀  
+*Developers*:  
+- Srijato  
+- Tanmoy  
+- Aditya  
+- Agniva  
+
+---
+
+
+
+---
+
+> 💡 “Mentorship made simple. Anytime. Anywhere. Bindass.”

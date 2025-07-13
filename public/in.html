@@ -325,6 +325,7 @@
   <!-- GSAP Animations and Script -->
   <script>
     
+    
     const existingToken = localStorage.getItem('authToken');
 const userRole = localStorage.getItem('userRole');
 
@@ -340,7 +341,7 @@ if (existingToken && userRole) {
   tl.from(".btn", { scale: 0.8, opacity: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" }, "-=0.4");
   tl.from(".footer-note", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6");
 
-  const API_LOGIN_URL = '/api/auth/login';
+  const API_LOGIN_URL = '/api/auth/log';
 
   const getDashboardUrl = (role) => {
     return role === 'mentor' ? '/dashboard.html' : '/mentee_dashboard.html';

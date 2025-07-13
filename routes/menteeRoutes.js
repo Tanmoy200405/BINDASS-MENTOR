@@ -1,6 +1,6 @@
 import express from 'express';
 import Mentee from '../models/Mentee.js';
-import authMiddleware from '../middlewares/authMiddleware.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 import path from 'path';
 
 const router = express.Router();

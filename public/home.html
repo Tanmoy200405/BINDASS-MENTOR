@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Social Feed</title>
+
+  <!-- Remix Icon + Lenis -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.4/dist/lenis.css">
+
+  <style>
+    /* ===============  GLOBAL  =============== */
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    html,body{
+      height:100%;width:100%;
+      overflow-x:hidden;
+      overflow-y:hidden;      /* NEW → body never scrolls */
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Open Sans','Helvetica Neue',sans-serif;
+    }
+
+    /* ===============  BACKGROUND  =============== */
+    #home::before{
+      content:"";
+      position:absolute;inset:0;
+      background:
+        radial-gradient(circle at 30% 30%,#00ffe0 0%,transparent 40%),
+        radial-gradient(circle at 70% 60%,#5e5ce6 0%,transparent 40%),
+        radial-gradient(circle at 50% 80%,#7af6ff 0%,transparent 40%),
+        radial-gradient(circle at 60% 20%,#d1d1e9 0%,transparent 40%),
+        radial-gradient(circle at 50% 50%,#6366f1 0%,transparent 40%);
+      filter:blur(100px);
+      opacity:.6;
+      animation:liquidFlow 5s ease-in-out infinite;
+      z-index:-1;
+    }
+    @keyframes liquidFlow{
+      0%  {transform:translate(0,0)   rotate(0deg);}
+      50% {transform:translate(10%,10%) rotate(180deg);}
+      100%{transform:translate(0,0)   rotate(360deg);}
+    }
+
+    /* ===============  HEADING  =============== */
+    #text{/* NEW — fixed, centred */
+      position:fixed;
+      top:20px;left:50%;transform:translateX(-50%);
+      text-align:center;
+      width:100%;pointer-events:none; /* so clicks pass through */
+      z-index:9;
+    }
+    #text h1{
+      font-size:36px;font-weight:600;color:#000;
+    }
+    .line{
+      width:60px;height:2px;background:#000;margin:10px auto 0; /* auto = centred */
+    }
+
+    /* ===============  FEED  =============== */
+    #postBox{
+      margin:120px auto 100px;               /* space for fixed heading */
+      width:90%;max-width:700px;
+      padding:10px;
+      display:flex;flex-direction:column;gap:20px;
+      max-height:calc(100vh - 220px);        /* NEW → single scroll area */
+      overflow-y:auto;                       /* NEW → only this div scrolls */
+    }
+    /* ===============  ADD POST OVERLAY STYLE  =============== */
+.add-post-container {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Responsive input elements */
+.add-post-container h2 {
+  font-size: 24px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+}
+
+#postDesc {
+  resize: none;
+  height: 100px;
+  padding: 10px 14px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+#postMedia {
+  font-size: 14px;
+}
+
+#mediaPreview img,
+#mediaPreview video {
+  width: 100%;
+  max-height: 300px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Submit button */
+#submitPost {
+  padding: 10px;
+  background: #6366f1;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s ease;
+}
+#submitPost:hover {
+  background: #4f46e5;
+}
+
+/* Close button */
+#closeAddPost {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 24px;
+  color: #444;
+  cursor: pointer;
+}
+
+
+    /* … everything else is unchanged … */
+
+    /* ===============  BOTTOM NAV  =============== */
+    #nav{
+      position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+      height:60px;width:90%;max-width:400px;
+      display:flex;gap:20px;align-items:center;justify-content:center;
+      background:rgba(255,255,255,.15);
+      backdrop-filter:blur(20px);
+      border:1px solid rgba(255,255,255,.3);
+      border-radius:60px;
+      box-shadow:0 8px 32px rgba(31,38,135,.37);
+      z-index:10;
+    }
+    #nav i{font-size:28px;}
+
+    /* ===============  OVERLAYS  =============== */
+    #searchOverlay,
+    #addPostOverlay{
+      position:fixed;inset:0;               /* NEW → cover viewport */
+      display:none;                         /* NEW → hidden until .show */
+      padding:20px;
+      background:rgba(255,255,255,.6);
+      backdrop-filter:blur(20px);
+      overflow-y:auto;
+      z-index:11;
+    }
+    .show{display:block!important;}         /* NEW */
+    /* ===============  SEARCH OVERLAY RESPONSIVE =============== */
+#searchOverlay {
+  display: none;
+  padding: 40px 20px 60px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  overflow-y: auto;
+  z-index: 11;
+  flex-direction: column;
+  align-items: center;
+}
+
+#closeSearch {
+  font-size: 28px;
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  cursor: pointer;
+  color: #444;
+}
+
+/* Search Input */
+#searchBar {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px 18px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  margin-top: 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Recommended Section */
+.recommended {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Profile Item */
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  transition: background 0.2s ease;
+}
+.profile-item:hover {
+  background: rgba(255,255,255,1);
+}
+
+.profile-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-item span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222;
+}
+
+
+    /* ===== everything below is as you had it (posts, actions, media etc.) ===== */
+    /* ===============  POST MEDIA =============== */
+.post img, .post video {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+#mediaPreview img,
+#mediaPreview video {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+/* ===============  SEARCH PROFILE CARDS =============== */
+.recommended {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: background 0.2s ease;
+}
+
+.profile-item:hover {
+  background: rgba(255,255,255,0.9);
+}
+
+.profile-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-item span {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+/* ===============  POST CARD STYLE  =============== */
+.post {
+  display: flex;
+  gap: 12px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  flex-direction: row;
+  align-items: flex-start;
+  transition: transform 0.3s ease;
+}
+.post:hover {
+  transform: translateY(-2px);
+}
+
+/* avatar */
+.post .profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* content */
+.post .content {
+  flex: 1;
+}
+
+.post .username {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.post .timestamp {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.post .text {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+/* actions */
+.actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+  font-size: 16px;
+  align-items: center;
+}
+.action-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: #444;
+}
+.action-item.liked i {
+  color: red;
+}
+
+/* comment box */
+.comment-box {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+.comment-box input {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.comment-box button {
+  padding: 6px 14px;
+  background: #6366f1;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+/* comments list */
+.comment-list {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+}
+@media (max-width: 600px) {
+  .add-post-container {
+    margin: 40px 16px;
+    padding: 16px;
+  }
+
+  #postDesc {
+    height: 80px;
+    font-size: 14px;
+  }
+
+  #submitPost {
+    font-size: 15px;
+  }
+}
+@media (max-width: 600px) {
+  #searchBar {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  .profile-item span {
+    font-size: 15px;
+  }
+
+  #closeSearch {
+    font-size: 24px;
+    top: 16px;
+    right: 20px;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  <!-- ===== HOME WRAPPER ===== -->
+   <div id="home">
+    <!-- ===== HEADER ===== -->
+    <div id="text">
+      <h1>HOME</h1>
+      <div class="line"></div>
+    </div>
+
+    <!-- ===== NAV BAR ===== -->
+    <div id="nav">
+      <i class="ri-home-2-line"></i>
+      <i class="ri-search-2-line" id="searchIcon"></i>
+      <i class="ri-add-line"></i>
+      <a href="message.html"><i class="ri-message-3-line"></i></a>
+    </div>
+
+    <!-- ===== FEED ===== -->
+    <div id="postBox"></div>
+  </div>
+
+  <!-- ===== SEARCH OVERLAY ===== -->
+  <div id="searchOverlay">
+    <i class="ri-close-line" id="closeSearch"></i>
+    <input type="text" id="searchBar" placeholder="Search profiles...">
+    <div class="recommended">
+      <div class="profile-item"><img src="https://randomuser.me/api/portraits/women/10.jpg"><span>@anita</span></div>
+      <div class="profile-item"><img src="https://randomuser.me/api/portraits/men/12.jpg"><span>@arjun</span></div>
+      <div class="profile-item"><img src="https://randomuser.me/api/portraits/women/5.jpg"><span>@sneha</span></div>
+      <div class="profile-item"><img src="https://randomuser.me/api/portraits/men/7.jpg"><span>@rahul</span></div>
+      <div class="profile-item"><img src="https://randomuser.me/api/portraits/women/20.jpg"><span>@priya</span></div>
+    </div>
+  </div>
+
+  <!-- ===== ADD POST OVERLAY ===== -->
+  <div id="addPostOverlay">
+    <div class="add-post-container">
+      <h2>Create New Post</h2>
+
+      <textarea id="postDesc" placeholder="Write a caption..."></textarea>
+      <input type="file" id="postMedia" accept="image/,video/">
+      <div id="mediaPreview"></div>
+
+      <button id="submitPost">Post</button>
+      <i class="ri-close-line" id="closeAddPost"></i>
+    </div>
+  </div>
+
+  <!-- ===== SHARE BOX TEMPLATE ===== -->
+  <div id="shareBox" class="share-box" onclick="event.stopPropagation();">
+    <div class="share-link">
+      <input type="text" id="shareURL" readonly>
+    </div>
+    <div class="platforms">
+      <a class="share-icon" id="shareFb" target="_blank"><i class="ri-facebook-fill"></i></a>
+      <a class="share-icon" id="shareTw" target="_blank"><i class="ri-twitter-fill"></i></a>
+      <a class="share-icon" id="shareWa" target="_blank"><i class="ri-whatsapp-line"></i></a>
+      <a class="share-icon" id="shareTg" target="_blank"><i class="ri-telegram-line"></i></a>
+    </div>
+  </div>
+  <!-- ===== SCRIPTS (unchanged) ===== -->
+  <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
+  <script>
+   const searchIcon      = document.getElementById("searchIcon");
+const searchOverlay   = document.getElementById("searchOverlay");
+const closeSearch     = document.getElementById("closeSearch");
+const searchBar       = document.getElementById("searchBar");
+
+const addIcon         = document.querySelector(".ri-add-line");
+const addPostOverlay  = document.getElementById("addPostOverlay");
+const closeAddPost    = document.getElementById("closeAddPost");
+const submitPost      = document.getElementById("submitPost");
+
+const postBox         = document.getElementById("postBox");
+const postDesc        = document.getElementById("postDesc");
+const mediaInput      = document.getElementById("postMedia");
+const mediaPreview    = document.getElementById("mediaPreview");
+
+/* SHARE BOX refs */
+const shareBox        = document.getElementById("shareBox");
+const shareURLInput   = document.getElementById("shareURL");
+const shareFb         = document.getElementById("shareFb");
+const shareTw         = document.getElementById("shareTw");
+const shareWa         = document.getElementById("shareWa");
+const shareTg         = document.getElementById("shareTg");
+
+/* =========================================================
+   SEARCH OVERLAY
+   ========================================================= */
+searchIcon.addEventListener("click", () => {
+  searchOverlay.classList.add("show");
+  setTimeout(() => searchBar.focus(), 150);
+});
+closeSearch.addEventListener("click", () => {
+  searchOverlay.classList.remove("show");
+  searchBar.value = "";
+});
+
+/* =========================================================
+   ADD-POST OVERLAY
+   ========================================================= */
+addIcon.addEventListener("click", () => addPostOverlay.classList.add("show"));
+closeAddPost.addEventListener("click", resetAddPost);
+
+/* Live media preview */
+mediaInput.addEventListener("change", () => {
+  const file = mediaInput.files[0];
+  mediaPreview.innerHTML = "";
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  if (file.type.startsWith("image")) {
+    const img = document.createElement("img");
+    img.src = url;
+    mediaPreview.appendChild(img);
+  } else if (file.type.startsWith("video")) {
+    const vid = document.createElement("video");
+    vid.controls = true;
+    vid.src = url;
+    mediaPreview.appendChild(vid);
+  }
+});
+
+/* =========================================================
+   LOCAL-STORAGE PERSISTENCE
+   ========================================================= */
+const STORAGE_KEY = "userPosts";
+let userPosts = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+/* ---------- helper: read a File -> dataURL ---------- */
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ---------- helper: build a <div class="post"> ---------- */
+function buildPost({ desc = "", mediaType = null, mediaData = null, timestamp = Date.now() }) {
+  const post = document.createElement("div");
+  post.className = "post";
+
+  /* profile avatar */
+  const profile = document.createElement("div");
+  profile.className = "profile";
+  const avatar = document.createElement("img");
+  avatar.src = "https://randomuser.me/api/portraits/lego/1.jpg";
+  profile.appendChild(avatar);
+
+  /* content wrapper */
+  const content = document.createElement("div");
+  content.className = "content";
+
+  const username = document.createElement("div");
+  username.className = "username";
+  username.textContent = "@you";
+
+  const time = document.createElement("div");
+  time.className = "timestamp";
+  time.dataset.ts = timestamp;
+  time.textContent = "· " + new Date(timestamp).toLocaleTimeString();
+
+  content.appendChild(username);
+  content.appendChild(time);
+
+  if (desc) {
+    const text = document.createElement("div");
+    text.className = "text";
+    text.textContent = desc;
+    content.appendChild(text);
+  }
+
+  if (mediaType && mediaData) {
+    if (mediaType === "image") {
+      const img = document.createElement("img");
+      img.src = mediaData;
+      content.appendChild(img);
+    } else if (mediaType === "video") {
+      const vid = document.createElement("video");
+      vid.controls = true;
+      const src = document.createElement("source");
+      src.src = mediaData;
+      src.type = "video/mp4";
+      vid.appendChild(src);
+      content.appendChild(vid);
+    }
+  }
+
+  /* ACTIONS */
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const makeAction = (icon, label = "") => {
+    const div = document.createElement("div");
+    div.className = "action-item";
+    div.innerHTML = <i class="${icon}"></i> <span class="count">0</span>${label};
+    return div;
+  };
+
+  const comment = makeAction("ri-chat-3-line");
+  const like    = makeAction("ri-heart-3-line");
+  const share   = makeAction("ri-share-forward-line");
+  const views   = makeAction("ri-eye-line", " views");
+
+  /* like toggle */
+  let liked = false;
+  like.addEventListener("click", () => {
+    liked = !liked;
+    like.classList.toggle("liked", liked);
+    const cnt = like.querySelector(".count");
+    cnt.textContent = parseInt(cnt.textContent) + (liked ? 1 : -1);
+  });
+
+  /* simple comments */
+  let cVisible = false;
+  const cBox = document.createElement("div");
+  cBox.className = "comment-box";
+  cBox.style.display = "none";
+
+  const cInput = document.createElement("input");
+  cInput.placeholder = "Write a comment...";
+  const cBtn = document.createElement("button");
+  cBtn.textContent = "Post";
+
+  cBox.appendChild(cInput);
+  cBox.appendChild(cBtn);
+
+  const cList = document.createElement("div");
+  cList.className = "comment-list";
+
+  comment.addEventListener("click", () => {
+    cVisible = !cVisible;
+    cBox.style.display = cVisible ? "flex" : "none";
+  });
+
+  cBtn.addEventListener("click", () => {
+    if (cInput.value.trim()) {
+      const item = document.createElement("div");
+      item.textContent = @you: ${cInput.value.trim()};
+      cList.appendChild(item);
+      cInput.value = "";
+      const cnt = comment.querySelector(".count");
+      cnt.textContent = parseInt(cnt.textContent) + 1;
+    }
+  });
+
+  actions.appendChild(comment);
+  actions.appendChild(like);
+  actions.appendChild(share);
+  actions.appendChild(views);
+
+  content.appendChild(actions);
+  content.appendChild(cBox);
+  content.appendChild(cList);
+
+  post.appendChild(profile);
+  post.appendChild(content);
+  return post;
+}
+
+/* ---------- render saved posts ---------- */
+userPosts.forEach(data => postBox.prepend(buildPost(data)));
+
+/* =========================================================
+   SUBMIT NEW POST
+   ========================================================= */
+submitPost.addEventListener("click", async () => {
+  const desc = postDesc.value.trim();
+  const file = mediaInput.files[0];
+
+  if (!desc && !file) {
+    alert("Please enter a caption or choose a file.");
+    return;
+  }
+
+  const newPost = {
+    desc,
+    mediaType : null,
+    mediaData : null,
+    timestamp : Date.now()
+  };
+
+  if (file) {
+    newPost.mediaType = file.type.startsWith("image") ? "image" : "video";
+    newPost.mediaData = await fileToDataURL(file);
+  }
+
+  userPosts.unshift(newPost);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(userPosts));
+
+  postBox.prepend(buildPost(newPost));
+  resetAddPost();
+});
+
+/* =========================================================
+   UTILITY: close modal & reset fields
+   ========================================================= */
+function resetAddPost() {
+  addPostOverlay.classList.remove("show");
+  postDesc.value = "";
+  mediaInput.value = "";
+  mediaPreview.innerHTML = "";
+}
+
+/* =========================================================
+   GENERATE 50 DEMO POSTS
+   ========================================================= */
+generateStarterFeed();
+function generateStarterFeed() {
+  for (let i = 1; i <= 50; i++) {
+    const post = document.createElement("div");
+    post.className = "post";
+
+    const profile = document.createElement("div");
+    profile.className = "profile";
+    const avatar = document.createElement("img");
+    avatar.src = "https://randomuser.me/api/portraits/lego/" + (i % 10) + ".jpg";
+    profile.appendChild(avatar);
+
+    const content = document.createElement("div");
+    content.className = "content";
+
+    const username = document.createElement("div");
+    username.className = "username";
+    username.textContent = @user${i};
+
+    const timestamp = document.createElement("div");
+    timestamp.className = "timestamp";
+    timestamp.dataset.ts = Date.now() - i;
+    timestamp.textContent = "· Just now";
+
+    const text = document.createElement("div");
+    text.className = "text";
+    text.textContent = Post number ${i} — sharing thoughts with the world 🌐;
+
+    content.appendChild(username);
+    content.appendChild(timestamp);
+    content.appendChild(text);
+
+    if (i % 2 === 0) {
+      const img = document.createElement("img");
+      img.src = "https://picsum.photos/seed/" + i + "/600/300";
+      content.appendChild(img);
+    } else {
+      const vid = document.createElement("video");
+      vid.controls = true;
+      vid.width = "100%";
+
+      const src = document.createElement("source");
+      src.src = "https://www.w3schools.com/html/mov_bbb.mp4";
+      src.type = "video/mp4";
+
+      vid.appendChild(src);
+      content.appendChild(vid);
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    const makeAction = (icon, max, label = "") =>
+      <div class="action-item"><i class="${icon}"></i> <span class="count">${Math.floor(Math.random() * max)}</span>${label}</div>;
+
+    actions.innerHTML =
+      makeAction("ri-chat-3-line", 10) +
+      makeAction("ri-heart-3-line", 200) +
+      makeAction("ri-share-forward-line", 50) +
+      makeAction("ri-eye-line", 1000, " views");
+
+    content.appendChild(actions);
+
+    post.appendChild(profile);
+    post.appendChild(content);
+    postBox.appendChild(post);
+  }
+}
+
+/* =========================================================
+   SHARE BOX FUNCTIONALITY (delegated)
+   ========================================================= */
+function openShareBox(link, anchorEl) {
+  shareURLInput.value = link;
+  shareFb.href = https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)};
+  shareTw.href = https://twitter.com/intent/tweet?url=${encodeURIComponent(link)};
+  shareWa.href = https://api.whatsapp.com/send?text=${encodeURIComponent(link)};
+  shareTg.href = https://t.me/share/url?url=${encodeURIComponent(link)};
+
+  const rect = anchorEl.getBoundingClientRect();
+  shareBox.style.top  = ${rect.bottom + window.scrollY + 8}px;
+  shareBox.style.left = ${rect.left   + window.scrollX}px;
+  shareBox.style.display = "flex";
+}
+
+/* Hide share box when clicking anywhere else */
+document.addEventListener("click", () => {
+  shareBox.style.display = "none";
+});
+
+/* Event delegation for all share icons */
+postBox.addEventListener("click", (e) => {
+  const shareIcon = e.target.closest(".ri-share-forward-line");
+  if (!shareIcon) return;
+
+  e.stopPropagation();
+  const postEl = shareIcon.closest(".post");
+  const tsElem = postEl.querySelector(".timestamp");
+
+  /* Use stored timestamp as ID, or generate */
+  let unique = tsElem.dataset.ts;
+  if (!unique) {
+    unique = Date.now();
+    tsElem.dataset.ts = unique;
+  }
+
+  const link = https://example.com/post/${unique};
+  openShareBox(link, shareIcon);
+});
+  </script>
+</body>
+</html>

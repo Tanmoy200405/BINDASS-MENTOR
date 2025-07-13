@@ -1,4 +1,4 @@
-// server.js
+
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -6,19 +6,12 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Route Imports
-import authRoutes from './routes/authRoutes.js';
-import menteeRoutes from './routes/menteeRoutes.js';
-import sessionRoutes from './routes/sessionRoutes.js';
-import messageRoutes from './routes/messageRoutes.js';
-import progressRoutes from './routes/progressRoutes.js';
-import notificationRoutes from './routes/notificationRoutes.js';
-import ratingRoutes from './routes/ratingRoutes.js';
-
+// Load environment variables
 dotenv.config();
+
 const app = express();
 
-// Resolve __dirname in ES module
+// Handle __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -26,30 +19,46 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 
-// Serve static frontend files from 'public'
+// Static Files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API Routes
+// Route Imports
+import authRoutes from './routes/authRoutes.js';
+import menteeRoutes from './routes/menteeRoutes.js';
+import mentorRoutes from './routes/mentorRoutes.js';              // 👨‍🏫 Mentor Dashboard Routes
+import sessionRoutes from './routes/sessionRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+import progressRoutes from './routes/progressRoutes.js';
+import notificationRoutes from './routes/notificationRoutes.js';
+import ratingRoutes from './routes/ratingRoutes.js';
+
+// Route Bindings
 app.use('/api/auth', authRoutes);                       // 🔐 Auth
-app.use('/api/mentee', menteeRoutes);                   // 👤 Mentee Profile, Mentor List
-app.use('/api/mentee/sessions', sessionRoutes);         // 📅 Session Requests
+app.use('/api/mentee', menteeRoutes);                   // 👤 Mentee Routes
+app.use('/api/mentor', mentorRoutes);                   // 🧑‍🏫 Mentor Routes
+app.use('/api/mentee/sessions', sessionRoutes);         // 📅 Session Requests (Mentee)
 app.use('/api/mentee/messages', messageRoutes);         // 💬 Chat
 app.use('/api/mentee/progress', progressRoutes);        // 📊 Progress Tracking
 app.use('/api/mentee/notifications', notificationRoutes); // 🔔 Notifications
-app.use('/api/mentee/rate', ratingRoutes);              // ⭐ Mentor Rating
+app.use('/api/mentee/rate', ratingRoutes);              // ⭐ Rating Mentors
 
-// Serve Landing Page
+// Serve Frontend (if index.html is present)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// MongoDB + Start Server
+// MongoDB Connection and Server Start
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
+  useUnifiedTopology: true,
+})
+.then(() => {
   console.log('✅ MongoDB connected');
-  app.listen(process.env.PORT || 5000, () => {
-    console.log(`🚀 Server running at http://localhost:${process.env.PORT || 5000}`);
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
-}).catch(err => console.error('❌ DB Connection Error:', err));
+})
+.catch((err) => {
+  console.error('❌ MongoDB connection error:', err);
+});
