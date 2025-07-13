@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Dashboard</title>
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+  <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style type="text/tailwindcss">
+    :root {
+      --primary-color: #3df4f4;
+      --accent-cyan: #3df4f4;
+      --accent-cyan-dark: #2aabbb;
+      --dark-bg: #0a0a0a;
+      --dark-card: #181a1b;
+      --text-primary: #e6e6e6;
+      --text-secondary: #7de6e6;
+      --border-cyan: #3df4f4;
+    }
+    .group\/design-root {
+      font-family: Inter, "Noto Sans", sans-serif;
+    }
+    .icon-cyan {
+      color: var(--accent-cyan);
+    }
+    .bg-cyan-accent {
+      background-color: var(--accent-cyan);
+    }
+    .text-cyan-accent {
+      color: var(--accent-cyan);
+    }
+    .border-cyan-accent {
+      border-color: var(--accent-cyan);
+    }
+    .hover\:bg-cyan-accent-darker:hover {
+      background-color: var(--accent-cyan-dark);
+    }
+    .bg-[var(--dark-bg)] {
+      background-color: var(--dark-bg) !important;
+    }
+    .bg-[var(--dark-card)] {
+      background-color: var(--dark-card) !important;
+    }
+    .text-[var(--text-primary)] {
+      color: var(--text-primary) !important;
+    }
+    .text-[var(--text-secondary)] {
+      color: var(--text-secondary) !important;
+    }
+    .hover\:bg-[#224949]:hover {
+      background-color: #183a3a !important;
+    }
+    .group-hover\:text-[var(--accent-cyan)]:hover {
+      color: var(--accent-cyan) !important;
+    }
+    .group-hover\:bg-cyan-accent:hover {
+      background-color: var(--accent-cyan) !important;
+    }
+    .group-hover\:text-[var(--dark-bg)]:hover {
+      color: var(--dark-bg) !important;
+    }
+    .bg-[#102323] {
+      background-color: #181a1b !important;
+    }
+    .hover\:bg-cyan-accent-darker:hover {
+      background-color: var(--accent-cyan-dark) !important;
+    }
+    .group-hover\:text-red-400:hover {
+      color: #3df4f4 !important;
+    }
+  </style>
+  <!-- Enhance sidebar active state and visual feedback -->
+  <style>
+    /* Add a subtle left border and shadow for the active sidebar link */
+    .sidebar-link.active,
+    .sidebar-link.bg-\[var\(--accent-cyan\)\] {
+      background-color: var(--accent-cyan) !important;
+      color: var(--dark-bg) !important;
+      box-shadow: 0 2px 16px 0 #3df4f422;
+      border-left: 4px solid var(--accent-cyan-dark);
+      font-weight: 600;
+      position: relative;
+    }
+    .sidebar-link.active::before,
+    .sidebar-link.bg-\[var\(--accent-cyan\)\]::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 18%;
+      bottom: 18%;
+      width: 4px;
+      border-radius: 2px;
+      background: var(--accent-cyan-dark);
+    }
+    .sidebar-link {
+      position: relative;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    .sidebar-link:not(.active):hover {
+      background: #183a3a !important;
+      color: var(--accent-cyan) !important;
+    }
+  </style>
+</head>
+<body class="bg-[var(--dark-bg)]">
+<!-- Mobile three-dot button (hidden on md and up) -->
+<button id="mobile-nav-btn" class="fixed top-4 left-4 z-50 flex md:hidden items-center justify-center w-12 h-12 rounded-full bg-[var(--dark-card)] border border-cyan-accent text-cyan-accent shadow-lg focus:outline-none" aria-label="Open navigation">
+  <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+    <circle cx="5" cy="12" r="2" fill="currentColor"/>
+    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    <circle cx="19" cy="12" r="2" fill="currentColor"/>
+  </svg>
+</button>
+<!-- Overlay for mobile sidebar -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-40 z-40 hidden md:hidden"></div>
+<div class="relative flex size-full min-h-screen flex-col bg-[var(--dark-bg)] dark group/design-root overflow-x-hidden">
+  <div class="layout-container flex h-full grow flex-row">
+    <!-- Sidebar: fixed on desktop, slides in on mobile -->
+    <aside id="sidebar"
+      class="fixed md:static z-50 top-0 left-0 h-full w-72 bg-[var(--dark-card)] p-6 flex flex-col justify-between min-h-0 max-h-screen transition-transform duration-300 md:translate-x-0 -translate-x-full md:flex overflow-y-auto"
+      style="will-change: transform;">
+      <!-- Close button for mobile -->
+      <button id="close-sidebar-btn"
+        class="md:hidden absolute top-4 right-4 text-cyan-accent bg-[var(--dark-bg)] rounded-full p-2 shadow-lg"
+        aria-label="Close navigation">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M6 18L18 6"/>
+        </svg>
+      </button>
+      <div>
+        <div class="flex items-center gap-3 mb-8 sidebar-profile cursor-pointer group">
+          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 border-2 border-[var(--accent-cyan)] transition-shadow duration-200 group-hover:shadow-[0_0_0_4px_#3df4f4,0_4px_24px_0_#3df4f4cc]"
+            id="sidebar-profile-avatar"
+            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA-ShXSvDDWmBujAwQh19jQoXlKx6HRO6ylCbGzyMEGU7nDVdU3wnX5jZMF5m_sj8Vs5sO8-t7DyVPLVorgF7BQmM7db22JHvK6g93AoMRxVZCRXdCPWo_jDgdQkwdIxwWWHJ8Suo1HWRJawhPxxgo0Nl6UYi6DeLKbtiEvx2QnVVNZeb_6twlh9qeWkd-5SaA3hFikMUPPheNHU9_O0WLCE-C7Iq2pnfQNx_YVYpZHX8CSpvjsdmGwD8dJB4EV0eEFksWzQZ2ugyw");'></div>
+          <div>
+            <h1 class="text-[var(--text-primary)] text-lg font-semibold">Sophia</h1>
+            <p class="text-[var(--text-secondary)] text-sm">Mentee</p>
+          </div>
+        </div>
+        <nav class="flex flex-col gap-3" id="sidebar-nav">
+          <a class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] bg-[var(--accent-cyan)] text-[var(--dark-bg)] hover:bg-cyan-accent-darker transition-colors" href="#" data-section="home">
+            <div class="icon-cyan" data-icon="House" data-size="24px" data-weight="fill">
+              <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+                <path d="M224,115.55V208a16,16,0,0,1-16,16H168a16,16,0,0,1-16-16V168a8,8,0,0,0-8-8H112a8,8,0,0,0-8,8v40a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V115.55a16,16,0,0,1,5.17-11.78l80-75.48.11-.11a16,16,0,0,1,21.53,0,1.14,1.14,0,0,0,.11.11l80,75.48A16,16,0,0,1,224,115.55Z"></path>
+              </svg>
+            </div>
+            <span class="text-sm font-medium">Home</span>
+          </a>
+          <a class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] hover:bg-[#224949] transition-colors" href="#" data-section="mentors">
+            <div class="text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)]" data-icon="Users" data-size="24px" data-weight="regular">
+              <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+                <path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
+              </svg>
+            </div>
+            <span class="text-sm font-medium">Mentors</span>
+          </a>
+          <a class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] hover:bg-[#224949] transition-colors" href="#" data-section="sessions">
+            <div class="text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)]" data-icon="Calendar" data-size="24px" data-weight="regular">
+              <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+                <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"></path>
+              </svg>
+            </div>
+            <span class="text-sm font-medium">Sessions</span>
+          </a>
+          <a class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] hover:bg-[#224949] transition-colors" href="#" data-section="resources">
+            <div class="text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)]" data-icon="Bookmark" data-size="24px" data-weight="regular">
+              <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+                <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,16V161.57l-51.77-32.35a8,8,0,0,0-8.48,0L72,161.56V48ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z"></path>
+              </svg>
+            </div>
+            <span class="text-sm font-medium">Resources</span>
+          </a>
+          <a class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] hover:bg-[#224949] transition-colors" href="#" data-section="community">
+            <div class="text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)]" data-icon="UsersThree" data-size="24px" data-weight="regular">
+              <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+                <path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"></path>
+              </svg>
+            </div>
+            <span class="text-sm font-medium">Community</span>
+          </a>
+        </nav>
+      </div>
+      <div class="flex flex-col gap-4 mt-8">
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-cyan-accent text-[var(--dark-bg)] text-sm font-bold leading-normal tracking-wider hover:bg-cyan-accent-darker transition-colors">
+          <span class="truncate">BECOME A MENTOR</span>
+        </button>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] hover:bg-[#224949] transition-colors" href="#">
+          <div class="text-[var(--text-secondary)] group-hover:text-[var(--accent-cyan)]" data-icon="Question" data-size="24px" data-weight="regular">
+            <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+              <path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+            </svg>
+          </div>
+          <span class="text-sm font-medium">Help &amp; Support</span>
+        </a>
+        <!-- Logout Button -->
+        <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-[var(--text-primary)] hover:bg-[#224949] transition-colors" href="/logout">
+          <div class="text-[var(--text-secondary)] group-hover:text-red-400" data-icon="SignOut" data-size="24px" data-weight="regular">
+            <svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px">
+              <path d="M216,128a8,8,0,0,0-8-8H104a8,8,0,0,0,0,16h104A8,8,0,0,0,216,128Zm-34.34-34.34a8,8,0,0,0-11.32,11.32L196.69,128l-26.35,26.34a8,8,0,1,0,11.32,11.32l32-32a8,8,0,0,0,0-11.32ZM120,40a8,8,0,0,0-8,8V72a8,8,0,0,0,16,0V56h72a8,8,0,0,1,8,8V192a8,8,0,0,1-8,8H128V176a8,8,0,0,0-16,0v24a8,8,0,0,0,8,8h80a24,24,0,0,0,24-24V64a24,24,0,0,0-24-24Z"></path>
+            </svg>
+          </div>
+          <span class="text-sm font-medium">Logout</span>
+        </a>
+      </div>
+    </aside>
+    <!-- Main content: add left margin on desktop to avoid being under the fixed sidebar -->
+    <main class="flex-1 p-4 md:p-8 bg-[var(--dark-bg)] overflow-y-auto md:ml-72">
+      <!-- Home Section -->
+      <section id="section-home">
+        <!-- Hero Banner -->
+        <div class="relative rounded-2xl overflow-hidden mb-10 shadow-xl bg-gradient-to-br from-[#0a0a0a] via-[#232b2b] to-[#3df4f4]/10 border border-cyan-accent group">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Mentorship India" class="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none transition-all duration-500 group-hover:scale-105" />
+          <div class="relative z-10 p-8 md:p-14 flex flex-col md:flex-row items-center gap-8">
+            <div class="flex-1">
+              <h1 class="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-4 drop-shadow-lg">
+                Welcome, Sophia!
+              </h1>
+              <p class="text-xl md:text-2xl text-cyan-accent font-semibold mb-4">Empowering your journey with India's best mentors.</p>
+              <p class="text-lg text-[var(--text-secondary)] mb-6 max-w-xl">
+                Connect, learn, and grow with top professionals from across India. Book sessions, track your progress, and unlock your potential.
+              </p>
+              <a href="#" class="inline-block px-8 py-3 rounded-xl bg-cyan-accent text-[var(--dark-bg)] font-bold text-lg shadow-lg hover:bg-cyan-accent-dark hover:scale-105 transition-all duration-200">Find a Mentor</a>
+            </div>
+            <div class="flex-1 flex justify-center">
+              <!-- Use an Indian face from Unsplash for realism -->
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophia" class="w-40 h-40 rounded-full border-4 border-cyan-accent shadow-lg object-cover bg-[#232b2b] hover:scale-110 transition-transform duration-300">
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Indian Mentors (with Unsplash/RandomUser Indian faces) -->
+        <section class="mb-12">
+          <h2 class="text-[var(--text-primary)] text-2xl font-bold leading-tight tracking-tight mb-6">Featured Mentors</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10 xl:gap-12">
+            <div class="flex flex-col gap-3 rounded-xl bg-[var(--dark-card)] p-5 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 ease-in-out transform hover:-translate-y-1 cursor-pointer border border-cyan-accent group">
+              <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Amit Sharma" class="w-full h-44 object-cover rounded-lg mb-2 bg-[#232b2b] border-2 border-cyan-accent group-hover:scale-105 transition-transform duration-300">
+              <div>
+                <h3 class="text-[var(--text-primary)] text-lg font-semibold group-hover:text-cyan-accent transition-colors">Amit Sharma</h3>
+                <p class="text-cyan-accent text-sm">Software Engineering</p>
+                <p class="text-[var(--text-secondary)] text-xs">Bangalore, Karnataka</p>
+              </div>
+            </div>
+            <div class="flex flex-col gap-3 rounded-xl bg-[var(--dark-card)] p-5 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 ease-in-out transform hover:-translate-y-1 cursor-pointer border border-cyan-accent group">
+              <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Singh" class="w-full h-44 object-cover rounded-lg mb-2 bg-[#232b2b] border-2 border-cyan-accent group-hover:scale-105 transition-transform duration-300">
+              <div>
+                <h3 class="text-[var(--text-primary)] text-lg font-semibold group-hover:text-cyan-accent transition-colors">Priya Singh</h3>
+                <p class="text-cyan-accent text-sm">Product Management</p>
+                <p class="text-[var(--text-secondary)] text-xs">Mumbai, Maharashtra</p>
+              </div>
+            </div>
+            <div class="flex flex-col gap-3 rounded-xl bg-[var(--dark-card)] p-5 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 ease-in-out transform hover:-translate-y-1 cursor-pointer border border-cyan-accent group">
+              <img src="https://randomuser.me/api/portraits/men/43.jpg" alt="Rahul Verma" class="w-full h-44 object-cover rounded-lg mb-2 bg-[#232b2b] border-2 border-cyan-accent group-hover:scale-105 transition-transform duration-300">
+              <div>
+                <h3 class="text-[var(--text-primary)] text-lg font-semibold group-hover:text-cyan-accent transition-colors">Rahul Verma</h3>
+                <p class="text-cyan-accent text-sm">Data Science</p>
+                <p class="text-[var(--text-secondary)] text-xs">Delhi, Delhi</p>
+              </div>
+            </div>
+            <div class="flex flex-col gap-3 rounded-xl bg-[var(--dark-card)] p-5 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all duration-300 ease-in-out transform hover:-translate-y-1 cursor-pointer border border-cyan-accent group">
+              <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Anjali Nair" class="w-full h-44 object-cover rounded-lg mb-2 bg-[#232b2b] border-2 border-cyan-accent group-hover:scale-105 transition-transform duration-300">
+              <div>
+                <h3 class="text-[var(--text-primary)] text-lg font-semibold group-hover:text-cyan-accent transition-colors">Anjali Nair</h3>
+                <p class="text-cyan-accent text-sm">UX Design</p>
+                <p class="text-[var(--text-secondary)] text-xs">Kochi, Kerala</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="mb-12">
+          <h2 class="text-[var(--text-primary)] text-2xl font-bold mb-6">Quick Actions</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <a href="#" class="flex items-center gap-4 bg-gradient-to-r from-cyan-900 via-cyan-700 to-cyan-500/80 p-5 rounded-xl hover:scale-105 hover:shadow-2xl hover:ring-2 hover:ring-cyan-accent transition-all group">
+              <div class="flex items-center justify-center rounded-lg bg-cyan-accent text-[var(--dark-bg)] size-14 shadow-lg group-hover:bg-cyan-accent-dark transition">
+                <svg fill="currentColor" height="28px" viewBox="0 0 256 256" width="28px">
+                  <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-[var(--text-primary)] text-lg font-semibold">Search Mentors</p>
+                <p class="text-[var(--text-secondary)] text-sm">Find the right mentor for your goals</p>
+              </div>
+            </a>
+            <a href="#" class="flex items-center gap-4 bg-gradient-to-r from-cyan-900 via-cyan-700 to-cyan-500/80 p-5 rounded-xl hover:scale-105 hover:shadow-2xl hover:ring-2 hover:ring-cyan-accent transition-all group">
+              <div class="flex items-center justify-center rounded-lg bg-cyan-accent text-[var(--dark-bg)] size-14 shadow-lg group-hover:bg-cyan-accent-dark transition">
+                <svg fill="currentColor" height="28px" viewBox="0 0 256 256" width="28px">
+                  <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-96-88v64a8,8,0,0,1-16,0V132.94l-4.42,2.22a8,8,0,0,1-7.16-14.32l16-8A8,8,0,0,1,112,120Zm59.16,30.45L152,176h16a8,8,0,0,1,0,16H136a8,8,0,0,1-6.4-12.8l28.78-38.37A8,8,0,1,0,145.07,132a8,8,0,1,1-13.85-8A24,24,0,0,1,176,136,23.76,23.76,0,0,1,171.16,150.45Z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-[var(--text-primary)] text-lg font-semibold">Book a Session</p>
+                <p class="text-[var(--text-secondary)] text-sm">Schedule your next mentorship</p>
+              </div>
+            </a>
+            <a href="#" class="flex items-center gap-4 bg-gradient-to-r from-cyan-900 via-cyan-700 to-cyan-500/80 p-5 rounded-xl hover:scale-105 hover:shadow-2xl hover:ring-2 hover:ring-cyan-accent transition-all group">
+              <div class="flex items-center justify-center rounded-lg bg-cyan-accent text-[var(--dark-bg)] size-14 shadow-lg group-hover:bg-cyan-accent-dark transition">
+                <svg fill="currentColor" height="28px" viewBox="0 0 256 256" width="28px">
+                  <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,16V161.57l-51.77-32.35a8,8,0,0,0-8.48,0L72,161.56V48ZM132.23,177.22a8,8,0,0,0-8.48,0L72,209.57V180.43l56-35,56,35v29.14Z"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-[var(--text-primary)] text-lg font-semibold">Resources</p>
+                <p class="text-[var(--text-secondary)] text-sm">Explore curated learning resources</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Progress Overview -->
+        <section class="mb-12">
+          <h2 class="text-[var(--text-primary)] text-2xl font-bold mb-6">Your Progress</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-[var(--dark-card)] rounded-xl p-6 flex flex-col items-center border border-cyan-accent shadow hover:shadow-2xl hover:scale-105 transition">
+              <span class="text-4xl font-extrabold text-cyan-accent mb-2">3</span>
+              <span class="text-[var(--text-primary)] font-semibold">Sessions Booked</span>
+            </div>
+            <div class="bg-[var(--dark-card)] rounded-xl p-6 flex flex-col items-center border border-cyan-accent shadow hover:shadow-2xl hover:scale-105 transition">
+              <span class="text-4xl font-extrabold text-cyan-accent mb-2">2</span>
+              <span class="text-[var(--text-primary)] font-semibold">Mentors Connected</span>
+            </div>
+            <div class="bg-[var(--dark-card)] rounded-xl p-6 flex flex-col items-center border border-cyan-accent shadow hover:shadow-2xl hover:scale-105 transition">
+              <span class="text-4xl font-extrabold text-cyan-accent mb-2">5</span>
+              <span class="text-[var(--text-primary)] font-semibold">Resources Saved</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Add Your Review About Our Platform -->
+        <section class="mb-12 flex flex-col items-center justify-center">
+          <h2 class="text-[var(--text-primary)] text-2xl font-bold mb-6 text-center">Add Your Review About Our Platform</h2>
+          <form id="review-form" class="bg-[var(--dark-card)] rounded-xl p-8 border border-cyan-accent shadow-lg max-w-2xl w-full flex flex-col gap-6 items-center">
+            <div class="flex flex-col sm:flex-row gap-6 w-full justify-center items-center">
+              <div class="flex flex-col items-center gap-2 flex-shrink-0">
+                <img id="review-avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Your Photo" class="w-20 h-20 rounded-full border-2 border-cyan-accent object-cover bg-[#232b2b] hover:scale-105 transition-transform duration-300 cursor-pointer">
+                <label for="review-avatar-input" class="text-xs text-cyan-accent cursor-pointer hover:underline">Change Photo</label>
+                <input id="review-avatar-input" type="file" accept="image/*" class="hidden">
+              </div>
+              <div class="flex-1 flex flex-col gap-4 w-full">
+                <div>
+                  <label class="block text-[var(--text-secondary)] text-sm mb-1">Your Name</label>
+                  <input id="review-name" type="text" required class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none" placeholder="e.g. Rohan Patel">
+                </div>
+                <div>
+                  <label class="block text-[var(--text-secondary)] text-sm mb-1">Your City</label>
+                  <input id="review-city" type="text" required class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none" placeholder="e.g. Mumbai">
+                </div>
+                <div>
+                  <label class="block text-[var(--text-secondary)] text-sm mb-1">Your Review</label>
+                  <textarea id="review-text" required rows="3" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none resize-none" placeholder="Share your experience..."></textarea>
+                </div>
+                <div>
+                  <label class="block text-[var(--text-secondary)] text-sm mb-1">Your Rating</label>
+                  <div id="review-stars" class="flex gap-1 text-2xl cursor-pointer select-none">
+                    <span data-star="1" class="star text-cyan-accent/40 hover:text-cyan-accent transition-colors">&#9733;</span>
+                    <span data-star="2" class="star text-cyan-accent/40 hover:text-cyan-accent transition-colors">&#9733;</span>
+                    <span data-star="3" class="star text-cyan-accent/40 hover:text-cyan-accent transition-colors">&#9733;</span>
+                    <span data-star="4" class="star text-cyan-accent/40 hover:text-cyan-accent transition-colors">&#9733;</span>
+                    <span data-star="5" class="star text-cyan-accent/40 hover:text-cyan-accent transition-colors">&#9733;</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="mt-2 px-8 py-3 rounded-lg bg-cyan-accent text-[var(--dark-bg)] font-bold hover:bg-cyan-accent-dark transition-colors shadow-lg text-lg">Submit Review</button>
+            <div id="review-success" class="hidden text-cyan-accent text-center font-semibold mt-2">Thank you for your review!</div>
+          </form>
+          <!-- Display submitted reviews below -->
+          <div id="reviews-list" class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl"></div>
+        </section>
+      </section>
+      <!-- Sessions Section (hidden by default) -->
+      <section id="section-sessions" style="display:none;">
+        <div class="flex flex-col items-center justify-center min-h-[60vh]">
+          <h2 class="text-[var(--text-primary)] text-3xl font-extrabold tracking-tight mb-2 text-center">Sessions Calendar</h2>
+          <p class="text-[var(--text-secondary)] mb-8 text-center text-lg">View your upcoming mentorship sessions and book new ones.</p>
+          <div id="calendar-container" class="bg-[var(--dark-card)] rounded-2xl p-8 shadow-2xl max-w-lg w-full mb-10 border border-cyan-accent"></div>
+          <div class="w-full max-w-lg">
+            <h3 class="text-[var(--text-primary)] text-xl font-bold mb-4 text-center">Upcoming Sessions</h3>
+            <ul id="upcoming-sessions-list" class="flex flex-col gap-4">
+              <!-- Sessions will be rendered here -->
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- Mentors Section (hidden by default) -->
+      <section id="section-mentors" style="display:none;">
+        <h2 class="text-[var(--text-primary)] text-3xl font-extrabold tracking-tight mb-8 text-center">Mentors</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+          <!-- Mentor cards will be injected here -->
+        </div>
+      </section>
+      <!-- Add more sections as needed, using the same pattern -->
+    </main>
+  </div>
+</div>
+<script>
+  
+  
+  // Sidebar mobile toggle logic
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const openBtn = document.getElementById('mobile-nav-btn');
+  const closeBtn = document.getElementById('close-sidebar-btn');
+
+  function openSidebar() {
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+  }
+  function closeSidebar() {
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+  }
+
+  openBtn.addEventListener('click', openSidebar);
+  closeBtn.addEventListener('click', closeSidebar);
+  overlay.addEventListener('click', closeSidebar);
+
+  // Optional: Close sidebar on resize to md and up
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      closeSidebar();
+    }
+  });
+
+  // Sidebar section switching logic with improved active state
+  const sidebarLinks = document.querySelectorAll('.sidebar-link');
+  const sections = {
+    home: document.getElementById('section-home'),
+    sessions: document.getElementById('section-sessions'),
+    mentors: document.getElementById('section-mentors'),
+    // Add more sections here if needed
+  };
+
+  function setActiveSidebar(link) {
+    sidebarLinks.forEach(l => {
+      l.classList.remove('active', 'bg-[var(--accent-cyan)]', 'text-[var(--dark-bg)]');
+      // Ensure all links have white text when not active
+      l.classList.add('text-[var(--text-primary)]');
+    });
+    link.classList.add('active', 'bg-[var(--accent-cyan)]', 'text-[var(--dark-bg)]');
+    // Remove white text from the active link
+    link.classList.remove('text-[var(--text-primary)]');
+  }
+
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      setActiveSidebar(this);
+      // Hide all sections
+      Object.values(sections).forEach(sec => sec && (sec.style.display = 'none'));
+      // Show the selected section
+      const sectionId = this.getAttribute('data-section');
+      if (sections[sectionId]) sections[sectionId].style.display = '';
+      // Close sidebar on mobile after click
+      if (window.innerWidth < 768) closeSidebar();
+      // Reset session filter when switching to sessions tab
+      if (sectionId === 'sessions') renderUpcomingSessions();
+      // Render mentors when switching to mentors tab
+      if (sectionId === 'mentors') renderMentors();
+    });
+  });
+
+  // Show home section by default and set active sidebar
+  setActiveSidebar(document.querySelector('.sidebar-link[data-section="home"]'));
+  sections.home.style.display = '';
+  sections.sessions.style.display = 'none';
+  sections.mentors.style.display = 'none';
+
+  // Demo data for upcoming sessions
+  const upcomingSessions = [
+    {
+      date: '2025-07-15',
+      time: '16:00',
+      mentor: 'Ethan Carter',
+      topic: 'React Advanced Patterns'
+    },
+    {
+      date: '2025-07-18',
+      time: '11:00',
+      mentor: 'Olivia Bennett',
+      topic: 'UX Portfolio Review'
+    },
+    {
+      date: '2025-07-22',
+      time: '19:30',
+      mentor: 'Liam Harper',
+      topic: 'Product Roadmapping'
+    }
+  ];
+
+  // Fetch Indian mentors with real names and photos
+  async function fetchIndianMentors(count = 100) {
+    const url = `https://randomuser.me/api/?results=${count}&nat=in&inc=name,location,picture,login`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.results.map((user, i) => ({
+      name: `${user.name.first} ${user.name.last}`,
+      expertise: [
+        "Software Engineering", "Product Management", "UX Design", "Data Science", "Marketing",
+        "AI", "Cybersecurity", "Cloud", "DevOps", "Business"
+      ][i % 10],
+      location: `${user.location.city}, ${user.location.state}`,
+      avatar: user.picture.large,
+      id: user.login.uuid
+    }));
+  }
+
+  // --- RESTORE SESSIONS SECTION FUNCTIONALITY ---
+
+  // Helper: Format date as YYYY-MM-DD
+  function formatDate(dateObj) {
+    return dateObj.toISOString().slice(0, 10);
+  }
+
+  // Render only sessions for a specific date, or all if no date
+  function renderUpcomingSessions(filterDate = null) {
+    const list = document.getElementById('upcoming-sessions-list');
+    if (!list) return;
+    list.innerHTML = '';
+    let filtered = upcomingSessions;
+    if (filterDate) {
+      filtered = upcomingSessions.filter(s => s.date === filterDate);
+    }
+    if (filtered.length === 0) {
+      list.innerHTML = `<li class="text-center text-[var(--text-secondary)]">No scheduled session on this date.</li>`;
+      return;
+    }
+    filtered.forEach(session => {
+      const li = document.createElement('li');
+      li.className = "bg-[var(--dark-card)] border border-cyan-accent rounded-xl p-4 flex flex-col items-center shadow";
+      li.innerHTML = `
+        <div class="flex items-center gap-3 mb-1">
+          <span class="inline-block px-3 py-1 rounded-full bg-cyan-accent text-[var(--dark-bg)] font-semibold text-sm">${new Date(session.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+          <span class="text-[var(--text-secondary)] font-medium text-sm">${session.time}</span>
+        </div>
+        <div class="text-[var(--text-primary)] font-bold text-lg">${session.topic}</div>
+        <div class="text-[var(--text-secondary)] text-sm">with ${session.mentor}</div>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  // Calendar rendering with clickable days
+  function renderCalendar(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    function getDaysInMonth(y, m) {
+      return new Date(y, m + 1, 0).getDate();
+    }
+    function render(selectedDateStr = null) {
+      container.innerHTML = '';
+      const header = document.createElement('div');
+      header.className = 'flex items-center justify-between mb-6';
+      const prevBtn = document.createElement('button');
+      prevBtn.innerHTML = '<svg width="24" height="24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      prevBtn.className = 'p-2 rounded-full bg-[var(--dark-bg)] text-cyan-accent hover:bg-cyan-accent hover:text-[var(--dark-bg)] transition shadow';
+      const nextBtn = document.createElement('button');
+      nextBtn.innerHTML = '<svg width="24" height="24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      nextBtn.className = 'p-2 rounded-full bg-[var(--dark-bg)] text-cyan-accent hover:bg-cyan-accent hover:text-[var(--dark-bg)] transition shadow';
+      const title = document.createElement('span');
+      title.className = 'text-[var(--text-primary)] text-xl font-bold tracking-wide';
+      title.textContent = `${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}`;
+      header.appendChild(prevBtn);
+      header.appendChild(title);
+      header.appendChild(nextBtn);
+      container.appendChild(header);
+
+      // Days of week
+      const daysRow = document.createElement('div');
+      daysRow.className = 'grid grid-cols-7 mb-2 text-center text-[var(--text-secondary)] font-semibold';
+      ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+        const day = document.createElement('div');
+        day.textContent = d;
+        daysRow.appendChild(day);
+      });
+      container.appendChild(daysRow);
+
+      // Dates
+      const days = getDaysInMonth(year, month);
+      const firstDay = new Date(year, month, 1).getDay();
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-7 gap-2 text-center';
+      // Empty slots
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        grid.appendChild(empty);
+      }
+      // Days
+      for (let d = 1; d <= days; d++) {
+        // Use local time for dateObj (fixes off-by-one bug)
+        const dateObj = new Date(year, month, d, 12, 0, 0, 0);
+        const dateStr = formatDate(dateObj);
+        const isToday =
+          d === (new Date().getDate()) &&
+          month === (new Date().getMonth()) &&
+          year === (new Date().getFullYear());
+
+        const isSessionDay = upcomingSessions.some(s => s.date === dateStr);
+        const isSelected = selectedDateStr === dateStr;
+
+        const dayBtn = document.createElement('button');
+        dayBtn.textContent = d;
+        dayBtn.type = "button";
+        // Base classes
+        dayBtn.className = 'w-10 h-10 flex items-center justify-center mx-auto font-medium transition-all duration-200 calendar-day-btn';
+        // Today: glowy square
+        if (isToday && !isSelected) {
+          dayBtn.className += ' today-glow-square';
+        }
+        // Session day: ring and pointer
+        if (isSessionDay) {
+          dayBtn.className += ' ring-2 ring-cyan-accent ring-offset-2 cursor-pointer';
+        }
+        // Selected: glowy square and cyan background
+        if (isSelected) {
+          dayBtn.className += ' selected-session-day';
+        }
+        // Default text color
+        if (!isSelected && !isToday) {
+          dayBtn.className += ' text-[var(--text-primary)]';
+        }
+
+        // Click event: always filter by this date
+        dayBtn.onclick = () => {
+          renderUpcomingSessions(dateStr);
+          render(dateStr); // re-render calendar with this date selected
+          document.getElementById('upcoming-sessions-list').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        };
+
+        grid.appendChild(dayBtn);
+      }
+      container.appendChild(grid);
+
+      prevBtn.onclick = () => {
+        month--;
+        if (month < 0) {
+          month = 11;
+          year--;
+        }
+        render();
+      };
+      nextBtn.onclick = () => {
+        month++;
+        if (month > 11) {
+          month = 0;
+          year++;
+        }
+        render();
+      };
+    }
+    render();
+  }
+
+  // Async renderMentors function
+  async function renderMentors() {
+    const section = document.getElementById('section-mentors');
+    if (!section) return;
+    const grid = section.querySelector('.grid');
+    grid.innerHTML = `
+      <div class="col-span-full flex justify-center py-10">
+        <span class="text-cyan-accent text-lg font-semibold">Loading mentors...</span>
+      </div>
+    `;
+    const mentors = await fetchIndianMentors(100);
+    grid.innerHTML = '';
+    mentors.forEach(mentor => {
+      const card = document.createElement('div');
+      card.className = "flex flex-col bg-[var(--dark-card)] rounded-xl shadow-lg p-5 gap-4 border border-cyan-accent hover:shadow-2xl transition-all";
+      card.innerHTML = `
+        <div class="flex items-center gap-4">
+          <img src="${mentor.avatar}" alt="${mentor.name}" class="w-16 h-16 rounded-lg border-2 border-cyan-accent bg-[#232b2b] object-cover"/>
+          <div>
+            <h3 class="text-[var(--text-primary)] text-lg font-bold">${mentor.name}</h3>
+            <p class="text-cyan-accent text-sm font-medium">${mentor.expertise}</p>
+            <p class="text-[var(--text-secondary)] text-xs">${mentor.location}</p>
+          </div>
+        </div>
+        <button class="mt-2 px-4 py-2 rounded-lg bg-cyan-accent text-[var(--dark-bg)] font-semibold hover:bg-cyan-accent-dark transition-colors shadow">View</button>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Initial render
+  renderCalendar('calendar-container');
+  renderUpcomingSessions();
+  // Do NOT call renderMentors() here!
+</script>
+<style>
+  /* Add glowing and color transition on calendar day hover */
+  .calendar-day-btn {
+    border-radius: 0.75rem;
+    background: transparent;
+    box-shadow: 0 0 0 0 transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+  }
+  .calendar-day-btn:hover {
+    background: #3df4f4 !important;
+    color: #0a0a0a !important;
+    box-shadow: 0 0 16px 4px #3df4f4cc, 0 2px 16px 0 #3df4f422;
+    z-index: 1;
+    transform: scale(1.08);
+  }
+  /* Glowy square for today */
+  .today-glow-square {
+    background: #232b2b;
+    color: #3df4f4;
+    box-shadow: 0 0 0 2px #3df4f4, 0 0 16px 2px #3df4f4cc;
+    border-radius: 0.75rem !important;
+    font-weight: bold;
+  }
+  /* Glowy square for selected session day */
+  .selected-session-day {
+    background: #3df4f4 !important;
+    color: #0a0a0a !important;
+    box-shadow: 0 0 16px 4px #3df4f4cc, 0 2px 16px 0 #3df4f422;
+    border-radius: 0.75rem !important;
+    font-weight: bold;
+  }
+  @media (min-width: 768px) {
+    #sidebar {
+      position: fixed !important;
+      top: 0;
+      left: 0;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      max-height: 100vh !important;
+      z-index: 50;
+      /* Remove translate-x-0/-translate-x-full for desktop */
+      transform: none !important;
+      border-radius: 0 !important;
+    }
+    .layout-container {
+      padding-left: 18rem; /* width of sidebar (w-72 = 18rem) */
+    }
+    main {
+      margin-left: 0 !important;
+    }
+  }
+  @media (max-width: 767px) {
+    .layout-container {
+      padding-left: 0 !important;
+    }
+  }
+</style>
+<!-- Update the profile modal markup for better responsiveness -->
+<div id="profile-modal" class="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-60 hidden">
+  <div class="relative bg-[var(--dark-card)] rounded-2xl shadow-2xl border-2 border-cyan-accent w-full max-w-lg mx-4 p-4 sm:p-8 flex flex-col items-center animate-fadeIn overflow-y-auto max-h-[95vh]">
+    <button id="close-profile-modal" class="absolute top-4 right-4 text-cyan-accent bg-[var(--dark-bg)] rounded-full p-2 shadow-lg hover:bg-cyan-accent hover:text-[var(--dark-bg)] transition" aria-label="Close profile">
+      <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M6 18L18 6"/>
+      </svg>
+    </button>
+    <div class="flex flex-col items-center w-full">
+      <div class="relative mb-4">
+        <img id="profile-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ShXSvDDWmBujAwQh19jQoXlKx6HRO6ylCbGzyMEGU7nDVdU3wnX5jZMF5m_sj8Vs5sO8-t7DyVPLVorgF7BQmM7db22JHvK6g93AoMRxVZCRXdCPWo_jDgdQkwdIxwWWHJ8Suo1HWRJawhPxxgo0Nl6UYi6DeLKbtiEvx2QnVVNZeb_6twlh9qeWkd-5SaA3hFikMUPPheNHU9_O0WLCE-C7Iq2pnfQNx_YVYpZHX8CSpvjsdmGwD8dJB4EV0eEFksWzQZ2ugyw" alt="Profile" class="w-28 h-28 rounded-full border-4 border-cyan-accent shadow-lg object-cover bg-[#232b2b]">
+        <label for="profile-avatar-input" class="absolute bottom-2 right-2 bg-cyan-accent text-[var(--dark-bg)] rounded-full p-1 cursor-pointer shadow hover:bg-cyan-accent-dark transition">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M20.5 19.5v-2.379a2 2 0 0 0-.586-1.414l-2.121-2.121a2 2 0 0 0-1.414-.586H7.621a2 2 0 0 0-1.414.586l-2.121 2.121A2 2 0 0 0 3.5 17.121V19.5a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <input id="profile-avatar-input" type="file" accept="image/*" class="hidden">
+        </label>
+      </div>
+      <form id="profile-form" class="w-full flex flex-col gap-4 items-center">
+        <div class="w-full">
+          <label class="block text-[var(--text-secondary)] text-sm mb-1">Full Name</label>
+          <input id="profile-name" type="text" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none" value="Sophia">
+        </div>
+        <div class="w-full">
+          <label class="block text-[var(--text-secondary)] text-sm mb-1">Location</label>
+          <input id="profile-location" type="text" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none" value="Mumbai, Maharashtra">
+        </div>
+        <div class="w-full">
+          <label class="block text-[var(--text-secondary)] text-sm mb-1">Email</label>
+          <input id="profile-email" type="email" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none" value="sophia@email.com">
+        </div>
+        <div class="w-full">
+          <label class="block text-[var(--text-secondary)] text-sm mb-1">Bio</label>
+          <textarea id="profile-bio" rows="3" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none resize-none">Aspiring developer passionate about learning and building new things.</textarea>
+        </div>
+        <div class="w-full flex flex-col sm:flex-row gap-4">
+          <div class="flex-1">
+            <label class="block text-[var(--text-secondary)] text-sm mb-1">LinkedIn</label>
+            <input id="profile-linkedin" type="url" placeholder="https://linkedin.com/in/username" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none">
+          </div>
+          <div class="flex-1">
+            <label class="block text-[var(--text-secondary)] text-sm mb-1">GitHub</label>
+            <input id="profile-github" type="url" placeholder="https://github.com/username" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none">
+          </div>
+        </div>
+        <div class="w-full">
+          <label class="block text-[var(--text-secondary)] text-sm mb-1">Skills</label>
+          <input id="profile-skills" type="text" placeholder="e.g. React, Python, UI/UX" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none">
+        </div>
+        <div class="w-full">
+          <label class="block text-[var(--text-secondary)] text-sm mb-1">Area of Interest</label>
+          <input id="profile-interests" type="text" placeholder="e.g. Web Development, AI, Product Design" class="w-full rounded-lg px-4 py-2 bg-[var(--dark-bg)] text-[var(--text-primary)] border border-cyan-accent focus:ring-2 focus:ring-cyan-accent outline-none">
+        </div>
+        <button type="submit" class="mt-2 px-6 py-2 rounded-lg bg-cyan-accent text-[var(--dark-bg)] font-bold hover:bg-cyan-accent-dark transition-colors shadow-lg">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px);}
+    to { opacity: 1; transform: translateY(0);}
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.35s cubic-bezier(.4,2,.6,1);
+  }
+</style>
+<script>
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+  const apiBase = 'http://localhost:5000'; // Your backend base URL
+
+  const modal = document.getElementById('profile-modal');
+  const openBtn = document.getElementById('open-profile-btn'); // you need a trigger somewhere
+  const closeBtn = document.getElementById('close-profile-modal');
+  const profileForm = document.getElementById('profile-form');
+
+  // 🔓 Prefill data
+  async function loadProfileData() {
+    try {
+      const res = await fetch(`${apiBase}/api/users/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const user = await res.json();
+      document.getElementById('profile-name').value = user.name || '';
+      document.getElementById('profile-email').value = user.email || '';
+      document.getElementById('profile-location').value = user.location || '';
+      document.getElementById('profile-bio').value = user.bio || '';
+      document.getElementById('profile-linkedin').value = user.linkedin || '';
+      document.getElementById('profile-github').value = user.github || '';
+      document.getElementById('profile-skills').value = user.skills || '';
+      document.getElementById('profile-interests').value = user.interests || '';
+      document.getElementById('profile-avatar').src = user.avatar || 'default-avatar.png';
+    } catch (err) {
+      console.error('Failed to load profile', err);
+    }
+  }
+
+  // 💾 Save changes
+  profileForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const updatedData = {
+      name: document.getElementById('profile-name').value,
+      email: document.getElementById('profile-email').value,
+      location: document.getElementById('profile-location').value,
+      bio: document.getElementById('profile-bio').value,
+      linkedin: document.getElementById('profile-linkedin').value,
+      github: document.getElementById('profile-github').value,
+      skills: document.getElementById('profile-skills').value,
+      interests: document.getElementById('profile-interests').value,
+    };
+
+    try {
+      const res = await fetch(`${apiBase}/api/users/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedData)
+      });
+      if (!res.ok) throw new Error('Update failed');
+      alert('Profile updated!');
+      modal.classList.add('hidden');
+    } catch (err) {
+      console.error(err);
+      alert('Error saving profile.');
+    }
+  });
+
+  // 🖼 Avatar Upload
+  const avatarInput = document.getElementById('profile-avatar-input');
+  avatarInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('avatar', file);
+
+    try {
+      const res = await fetch(`${apiBase}/api/users/${userId}/avatar`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
+      if (!res.ok) throw new Error('Avatar upload failed');
+      const data = await res.json();
+      document.getElementById('profile-avatar').src = data.avatar;
+    } catch (err) {
+      console.error(err);
+      alert('Avatar upload error.');
+    }
+  });
+
+  // Modal open/close (add a button with id="open-profile-btn")
+  openBtn?.addEventListener('click', () => {
+    modal.classList.remove('hidden');
+    loadProfileData();
+  });
+  closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+</script>
+</body>
+</html>

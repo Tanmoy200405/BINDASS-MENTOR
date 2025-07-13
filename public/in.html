@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    /* Your provided CSS for the Sign In page */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      background: radial-gradient(circle at 30% 30%, #0d0d0d, #060606);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      position: relative;
+      color: white;
+      padding: 20px;
+    }
+
+    /* 🔵 Liquid Background Animation */
+    .liquid-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300%;
+      height: 300%;
+      background:
+        radial-gradient(circle at 25% 30%, #00fff2aa 0%, transparent 60%),
+        radial-gradient(circle at 70% 80%, #00d0ff88 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, #00c0ff44 0%, transparent 70%);
+      animation: liquidFlow 30s ease-in-out infinite;
+      filter: blur(160px);
+      z-index: -3;
+      opacity: 0.4;
+    }
+
+    @keyframes liquidFlow {
+      0%   { transform: translate(0%, 0%) scale(1); }
+      25%  { transform: translate(-15%, -10%) scale(1.1); }
+      50%  { transform: translate(-10%, 15%) scale(1.15); }
+      75%  { transform: translate(10%, -20%) scale(1.1); }
+      100% { transform: translate(0%, 0%) scale(1); }
+    }
+
+    /* ✨ Ambient Glow Particles */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(circle, #00fff240 1px, transparent 2px),
+        radial-gradient(circle, #00fff210 1px, transparent 2px),
+        radial-gradient(circle, #00fff230 1px, transparent 2px);
+      background-size: 60px 60px, 100px 100px, 150px 150px;
+      background-position: 0 0, 50px 100px, 100px 200px;
+      animation: particleFlow 60s linear infinite;
+      z-index: -4;
+      opacity: 0.3;
+    }
+
+    @keyframes particleFlow {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50px, -100px); }
+    }
+
+    /* ✨ Glitter Sparkle Overlay (Premium) */
+    .glitter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 400%;
+      height: 400%;
+      background-image:
+        radial-gradient(circle, #ffffffdd 0.5px, transparent 0.8px),
+        radial-gradient(circle, #ccffffaa 0.5px, transparent 0.8px),
+        radial-gradient(circle, #00fff288 0.5px, transparent 0.8px),
+        radial-gradient(circle, #ffffff44 0.5px, transparent 0.8px);
+      background-size: 40px 40px, 80px 80px, 100px 100px, 150px 150px;
+      background-position: 0 0, 60px 80px, 100px 120px, 180px 220px;
+      animation: glitterMove 20s linear infinite, glitterTwinkle 1.5s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: -2;
+      opacity: 0.6;
+      mix-blend-mode: screen;
+      filter: blur(0.4px) brightness(1.4);
+    }
+
+    @keyframes glitterMove {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-100px, -200px) scale(1.05); }
+    }
+
+    @keyframes glitterTwinkle {
+      0% { opacity: 0.3; filter: brightness(1); }
+      100% { opacity: 0.6; filter: brightness(1.6); }
+    }
+
+    .bg-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00fff2aa 0%, transparent 70%);
+      filter: blur(120px);
+      z-index: -1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .bg-glow.one {
+      top: -100px;
+      left: -100px;
+    }
+
+    .bg-glow.two {
+      bottom: -100px;
+      right: -100px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(20px) translateX(20px); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 40px #00fff2cc;
+      border: 1px solid #00fff260;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: rotateX(5deg) rotateY(-5deg) scale(1.01);
+    }
+
+    .card h2 {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px;
+      margin-bottom: 30px;
+      color: #00fff2;
+      text-shadow: 0 0 20px #00fff2;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #cccccc;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      background: #1e1e1e;
+      border: 1px solid #00fff220;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    input:focus {
+      box-shadow: 0 0 12px #00fff2;
+      border-color: #00fff2;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      background: #00fff2;
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 25px #00fff2aa;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #00e0d0;
+      transform: scale(1.03);
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* Message Area Styles */
+    .message-area {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        color: #fff;
+        display: none; /* Hidden by default */
+    }
+    .message-area.success {
+        background-color: #008000; /* Darker green */
+        box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);
+    }
+    .message-area.error {
+        background-color: #800000; /* Darker red */
+        box-shadow: 0 0 10px rgba(128, 0, 0, 0.5);
+    }
+
+    /* ---------------- Responsive Styling ---------------- */
+    @media (max-width: 768px) {
+      .card {
+        padding: 40px 30px;
+      }
+
+      .card h2 {
+        font-size: 26px;
+      }
+
+      input {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      .btn {
+        font-size: 15px;
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+
+      .card h2 {
+        font-size: 22px;
+      }
+
+      .bg-glow {
+        width: 300px;
+        height: 300px;
+        filter: blur(80px);
+      }
+
+      input {
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 14px;
+      }
+
+      .footer-note {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Layers -->
+  <div class="particles"></div>
+  <div class="liquid-bg"></div>
+  <div class="glitter"></div>
+  <div class="bg-glow one"></div>
+  <div class="bg-glow two"></div>
+
+  <!-- Card -->
+  <div class="card" id="signin-card">
+    <h2>Welcome Back</h2>
+
+    <form id="login-form"> <!-- Removed action and method attributes -->
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="••••••••" required />
+      </div>
+      <button class="btn" type="submit">Sign In</button>
+    </form>
+
+    <div id="message-area" class="message-area"></div> <!-- Message area -->
+
+    <div class="footer-note">
+      Don’t have an account? 
+      <a href="signup.html" style="color:#00fff2; text-decoration: none;">Sign Up</a><br/>
+      <a href="forgot-password.html" style="color:#aaa; font-size: 11px;">Forgot Password?</a>
+    </div>
+  </div>
+
+  <!-- GSAP Animations and Script -->
+  <script>
+    
+    const existingToken = localStorage.getItem('authToken');
+const userRole = localStorage.getItem('userRole');
+
+if (existingToken && userRole) {
+  const redirectTo = userRole === 'mentor' ? "/mentor_dashboard.html" : '/mentee_dashboard.html';
+  window.location.href = redirectTo;
+}
+  const tl = gsap.timeline({ defaults: { ease: "power4.out", duration: 1 } });
+
+  tl.from("#signin-card", { opacity: 0, y: 80, duration: 1.2 });
+  tl.from(".card h2", { opacity: 0, y: -30, duration: 0.8 }, "-=0.6");
+  tl.from(".input-group", { opacity: 0, y: 40, stagger: 0.2, duration: 1 }, "-=0.6");
+  tl.from(".btn", { scale: 0.8, opacity: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" }, "-=0.4");
+  tl.from(".footer-note", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6");
+
+  const API_LOGIN_URL = '/api/auth/login';
+
+  const getDashboardUrl = (role) => {
+    return role === 'mentor' ? '/dashboard.html' : '/mentee_dashboard.html';
+  };
+
+  const loginForm = document.getElementById('login-form');
+  const messageArea = document.getElementById('message-area');
+
+  function showMessage(message, type = 'success') {
+    messageArea.textContent = message;
+    messageArea.className = `message-area ${type}`;
+    messageArea.style.display = 'block';
+    setTimeout(() => {
+      messageArea.style.display = 'none';
+    }, 4000);
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    messageArea.style.display = 'none';
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch(API_LOGIN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      console.log('Response data from server:', data);
+
+      if (response.ok && data.token && data.role && data.name && data._id) {
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('userRole', data.role);
+        localStorage.setItem('userName', data.name);
+        localStorage.setItem('userId', data._id);
+
+        showMessage(`Login successful! Redirecting...`, 'success');
+        setTimeout(() => {
+          window.location.href = getDashboardUrl(data.role);
+        }, 1500);
+      } else {
+        showMessage(`Login failed: ${data.message || 'Invalid credentials.'}`, 'error');
+      }
+
+    } catch (error) {
+      console.error('Error during login:', error);
+      showMessage('Network error or server is down. Please try again.', 'error');
+    }
+  });
+</script>
+
+</body>
+</html>

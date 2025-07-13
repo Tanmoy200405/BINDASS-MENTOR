@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    /* Your provided CSS for the Sign Up page */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      width: 100vw;
+      background: radial-gradient(circle at 30% 30%, #0d0d0d, #060606);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      position: relative;
+      color: white;
+      padding: 20px;
+    }
+
+    .bg-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #00fff2aa 0%, transparent 70%);
+      filter: blur(120px);
+      z-index: 0;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .bg-glow.one {
+      top: -100px;
+      left: -100px;
+    }
+
+    .bg-glow.two {
+      bottom: -100px;
+      right: -100px;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) translateX(0);
+      }
+      50% {
+        transform: translateY(20px) translateX(20px);
+      }
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 40px #00fff2cc;
+      border: 1px solid #00fff260;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: rotateX(5deg) rotateY(-5deg) scale(1.01);
+    }
+
+    .card h2 {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 30px;
+      margin-bottom: 30px;
+      color: #00fff2;
+      text-shadow: 0 0 20px #00fff2;
+      letter-spacing: 1px;
+    }
+
+    .input-group {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #cccccc;
+    }
+
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 45px;
+    }
+
+    .toggle-eye {
+      position: absolute;
+      right: 15px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #00fff2;
+      text-shadow: 0 0 10px #00fff2;
+      user-select: none;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-eye:hover {
+      transform: scale(1.2);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      background: #1e1e1e;
+      border: 1px solid #00fff220;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: box-shadow 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      box-shadow: 0 0 12px #00fff2;
+      border-color: #00fff2;
+    }
+
+    select {
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, #00fff2 50%),
+                        linear-gradient(135deg, #00fff2 50%, transparent 50%);
+      background-position: calc(100% - 20px) center, calc(100% - 15px) center;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      background: #00fff2;
+      border: none;
+      border-radius: 12px;
+      color: #000;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 0 25px #00fff2aa;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #00e0d0;
+      transform: scale(1.03);
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* Message Area Styles */
+    .message-area {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+        color: #fff;
+        display: none; /* Hidden by default */
+    }
+    .message-area.success {
+        background-color: #008000; /* Darker green */
+        box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);
+    }
+    .message-area.error {
+        background-color: #800000; /* Darker red */
+        box-shadow: 0 0 10px rgba(128, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 40px 30px;
+      }
+
+      .card h2 {
+        font-size: 26px;
+      }
+
+      input, select {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+
+      .btn {
+        font-size: 15px;
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+
+      .card h2 {
+        font-size: 22px;
+      }
+
+      .bg-glow {
+        width: 300px;
+        height: 300px;
+        filter: blur(80px);
+      }
+
+      input {
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 14px;
+      }
+
+      .footer-note {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow one"></div>
+  <div class="bg-glow two"></div>
+
+  <div class="card" id="signup-card">
+    <h2>Create Account</h2>
+    <form id="signup-form"> <!-- Removed action and method attributes -->
+      <div class="input-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="John Doe" required />
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="input-group">
+        <label for="role">Select Role</label>
+        <select id="role" name="role" required>
+          <option value="" disabled selected>Select your role</option>
+          <option value="mentor">Mentor</option>
+          <option value="mentee">Mentee</option>
+        </select>
+      </div>
+
+      <div class="input-group password-group">
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="••••••••" required />
+          <span class="toggle-eye" id="toggleEye">👁</span>
+        </div>
+      </div>
+
+      <button class="btn" type="submit">Sign Up</button>
+    </form>
+
+    <div id="message-area" class="message-area"></div> <!-- Message area -->
+
+    <div class="footer-note">
+      Already have an account? <a href="in.html" style="color:#00fff2; text-decoration: none;">Sign In</a>
+    </div>
+  </div>
+
+  <script>
+    const existingToken = localStorage.getItem('authToken');
+  const userRole = localStorage.getItem('userRole');
+
+if (existingToken && userRole) {
+  const redirectTo = userRole === 'mentor' ? '/dashboard.html' : '/mentee_dashboard.html';
+  window.location.href = redirectTo;
+}
+    // GSAP Animations (your existing code)
+    const tl = gsap.timeline({ defaults: { ease: "power4.out", duration: 1 } });
+    tl.from("#signup-card", { opacity: 0, y: 100, duration: 1.2 });
+    tl.from(".card h2", { opacity: 0, y: -30, duration: 0.8 }, "-=0.6");
+    tl.from(".input-group", { opacity: 0, y: 40, stagger: 0.2, duration: 1 }, "-=0.6");
+    tl.from(".btn", { scale: 0.8, opacity: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" }, "-=0.4");
+    tl.from(".footer-note", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6");
+
+    // Password visibility toggle (your existing code)
+    const passwordInput = document.getElementById("password");
+    const toggleEye = document.getElementById("toggleEye");
+    let passwordVisible = false;
+
+    toggleEye.addEventListener("click", () => {
+      passwordVisible = !passwordVisible;
+      passwordInput.type = passwordVisible ? "text" : "password";
+      toggleEye.textContent = passwordVisible ? "🙈" : "👁";
+    });
+
+    // --- Backend Integration ---
+    const API_REGISTER_URL = 'http://localhost:5000/api/auth/register';
+    // Dynamically determine dashboard URL based on role
+    const getDashboardUrl = (role) => {
+        console.log('User Role received (Sign Up):', role); // Log the role for debugging
+        return role === 'mentor' ? '/dashboard.html' : '/mentee_dashboard.html';
+    };
+
+    const signupForm = document.getElementById('signup-form');
+    const messageArea = document.getElementById('message-area');
+
+    function showMessage(message, type = 'success') {
+        messageArea.textContent = message;
+        messageArea.className = `message-area ${type}`;
+        messageArea.style.display = 'block'; // Make visible
+        // Hide message after 3 seconds
+        setTimeout(() => {
+            messageArea.style.display = 'none';
+        }, 3000);
+    }
+
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        messageArea.style.display = 'none'; // Hide previous messages
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const role = document.getElementById('role').value;
+
+        try {
+            const response = await fetch(API_REGISTER_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password, role }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('jwtToken', data.token);
+                localStorage.setItem('userRole', data.role);
+                localStorage.setItem('userName', data.name);
+                localStorage.setItem('userEmail', data.email);
+                localStorage.setItem('userId', data._id);
+
+                showMessage(`Registration successful! Welcome, ${data.name}. Redirecting...`, 'success');
+                setTimeout(() => {
+                    window.location.href = getDashboardUrl(data.role); // Redirect based on role
+                }, 1500);
+            } else {
+                showMessage(`Registration failed: ${data.message || 'Something went wrong.'}`, 'error');
+            }
+        } catch (error) {
+            console.error('Error during registration:', error);
+            showMessage('Network error. Please try again.', 'error');
+        }
+    });
+  </script>
+</body>
+</html>
