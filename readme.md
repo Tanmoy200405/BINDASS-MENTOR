@@ -5,7 +5,9 @@ Bindass Mentor is a mentorship platform designed to connect mentees with experie
 Whether you're a student or a working professional, Bindass Mentor helps you learn, grow, and connect with the right guide at the right time.
 
 **Project Status:** *In Development Stage*
+
 **Hackathon:** Code for Bharat Season 2
+
 **Team Name:** Team Clover
 
 ---
@@ -72,6 +74,7 @@ We aim to make expert guidance accessible to everyone, breaking barriers of time
 ## Contact
 
 Email: [teamclover2024@gmail.com](mailto:teamclover2024@gmail.com)
+
 Location: India 
 
 ---
