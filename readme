@@ -1,58 +1,98 @@
-# Bindass Mentor 👨‍🏫👩‍🏫
+# 👨‍🏫 Bindass Mentor – Your Guide, Anytime. Anywhere.
 
-*Bindass Mentor* is a mentorship platform designed to connect mentees with mentors through personalized one-on-one interactions, smart features, and 24x7 availability. Whether you're a student or a working professional, Bindass Mentor helps you learn, grow, and connect with the right guide.
+**Bindass Mentor** is a mentorship platform designed to connect mentees with experienced mentors through personalized one-on-one interactions, smart features, and 24x7 availability.
 
-🚧 *Project Status:* 🛠 In Early Development Stage
+Whether you're a student or a working professional, Bindass Mentor helps you learn, grow, and connect with the right guide at the right time.
+
+> 🚧 **Project Status:** *In Early Development Stage*  
+> 🚀 **Hackathon:** *Hack Synthesis 2.0*  
+> 👥 **Team Name:** *Team Clover*
 
 ---
 
-## 🧠 Core Features
+## 🔑 Key Features
 
-- 🔗 *One-on-One Mentorship*: Get personalized sessions with real mentors.
-- 🔄 *Flexible Mentors*: Mentors can set their own schedules and areas of expertise.
-- 👥 *Login/Signup as Mentor or Mentee*: Role-based access and authentication.
-- 🤝 *Create Meaningful Connections*: Intelligent matching to pair mentors with mentees.
-- 📹 *Integrated Video Calls*: Seamless in-app video calling experience.
-- 🧠 *Mentee Chatbot*: Smart chatbot built using OpenAI API to guide mentees.
-- 🌙 *24x7 Platform Availability*: Access anytime from anywhere.
+- 🔗 **One-on-One Mentorship**  
+  Personalized sessions with real mentors.
+
+- 🕐 **Flexible Scheduling**  
+  Mentors can define availability and areas of expertise.
+
+- 🔐 **Role-Based Login/Signup**  
+  Sign up as a mentor or a mentee with secure access.
+
+- 🤝 **Smart Matchmaking**  
+  Intelligent pairing of mentors and mentees.
+
+- 📹 **Integrated Video Calling**  
+  Seamless in-app mentorship sessions via video.
+
+- 🤖 **AI Chatbot for Mentees**  
+  24x7 assistant powered by OpenAI API to guide users.
+
+- 🌐 **Access Anytime, Anywhere**  
+  Fully available across devices and time zones.
 
 ---
 
 ## 🛠 Tech Stack
 
-| Area            | Tools / Technologies                       |
-|-----------------|---------------------------------------------|
-| *Frontend*    | HTML, CSS, JavaScript, GSAP (Animations)    |
-| *Design*      | Figma                                       |
-| *Backend*     | Node.js, Express.js                         |
-| *Database*    | MongoDB                                     |
-| *Authentication* | JWT (JSON Web Token), bcrypt              |
-| *Chatbot*     | OpenAI API                                  |
-| *Deployment*  | Not yet deployed                            |
+| Area             | Technologies Used                          |
+|------------------|--------------------------------------------|
+| **Frontend**     | HTML, CSS, JavaScript, GSAP (Animations)   |
+| **Design**       | Figma                                      |
+| **Backend**      | Node.js, Express.js                        |
+| **Database**     | MongoDB                                    |
+| **Authentication** | JWT, bcrypt                             |
+| **Chatbot**      | OpenAI API                                 |
+| **Deployment**   | *Coming Soon*                              |
 
 ---
 
-## 🚀 Getting Started
+## 🧭 Development Roadmap
 
-> Setup instructions will be added soon as the development progresses.
-
----
-
-
----
-
-
-##Hackathon Team – Clover 🚀  
-*Developers*:  
-- Srijato  
-- Tanmoy  
-- Aditya  
-- Agniva  
+- [x] Ideation & Planning  
+- [x] Basic UI Wireframes  
+- [ ] Login/Signup System  
+- [ ] Video Call Integration  
+- [ ] AI Chatbot for Mentorship Help  
+- [ ] Dashboard for Mentors & Mentees  
+- [ ] Admin Panel  
+- [ ] Notifications & Scheduling  
+- [ ] Final Deployment
 
 ---
 
+## 👥 Meet the Team – Team Clover
 
+| Name      | Role            |
+|-----------|------------------|
+| **Srijato** | Backend & Documentation |
+| **Tanmoy**  | Backend Lead   |
+| **Aditya**  | Frontend Lead  |
+| **Agniva**  | Research & QA  |
 
 ---
 
-> 💡 “Mentorship made simple. Anytime. Anywhere. Bindass.”
+## 🎯 Our Vision
+
+> *“Mentorship made simple. Anytime. Anywhere.”*  
+We aim to make expert guidance accessible to everyone, breaking the barriers of time, place, and platform.
+
+---
+
+## 📬 Contact Us
+
+📧 Email: `bindassmentor@gmail.com` *(placeholder – update if needed)*  
+📍 Location: India (Remote-first project)
+
+---
+
+## 🙌 Contributing
+
+Coming soon! We’ll soon open the platform to contributors, with setup guides and contribution guidelines.
+
+---
+
+Thanks for visiting! Don’t forget to ⭐ star the repo if you like what we’re building.
+
